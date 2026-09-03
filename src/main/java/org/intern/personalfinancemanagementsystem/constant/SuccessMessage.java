@@ -1,6 +1,8 @@
 package org.intern.personalfinancemanagementsystem.constant;
 
 public final class SuccessMessage {
+    public static final String SUCCESS_CODE = "SUCCESS";
+
     public static final class Auth {
         public static final String REGISTER_SUCCESS = "Register successfully.";
     }

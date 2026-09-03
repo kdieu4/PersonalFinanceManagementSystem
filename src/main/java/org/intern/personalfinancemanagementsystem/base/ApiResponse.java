@@ -6,15 +6,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
 import java.time.Instant;
+import java.util.Objects;
 
 public record ApiResponse<T>(
         Boolean success,
         RestData<T> data,
         Instant timestamp
 ) {
-//    public static <T> ResponseEntity<ApiResponse<T>> success(T data) {
-//        return success(HttpStatus.OK, data);
-//    }
+    public static <T> ApiResponse<T> success(String message, T data) {
+        return new ApiResponse<>(true, RestData.success(message, data), Instant.now());
+    }
 
 //    public static <T> ResponseEntity<ApiResponse<T>> success(HttpStatus status, T data) {
 //        ApiResponse<T> response = new ApiResponse<>(true, new RestData<>(data), Instant.now());
@@ -22,7 +23,7 @@ public record ApiResponse<T>(
 //    }
 
     public static <T> ResponseEntity<ApiResponse<T>> success(HttpStatus status, String message, T data) {
-        ApiResponse<T> response = new ApiResponse<>(true, new RestData<>(message, data), Instant.now());
+        ApiResponse<T> response = new ApiResponse<>(true, RestData.success(message, data), Instant.now());
         return new ResponseEntity<>(response, status);
     }
 
@@ -38,13 +39,11 @@ public record ApiResponse<T>(
 //    }
 
 
-    public static <T> ResponseEntity<ApiResponse<T>> error(HttpStatus status, String message) {
-        ApiResponse<T> response = new ApiResponse<>(false, RestData.error(status, message), Instant.now());
-        return new ResponseEntity<>(response, status);
+    public static <T> ApiResponse<T> error(String code, String message) {
+        return new ApiResponse<>(false, RestData.error(code, message), Instant.now());
     }
 
-    public static <T> ResponseEntity<ApiResponse<T>> error(HttpStatus status, String message, T data) {
-        ApiResponse<T> response = new ApiResponse<>(false, RestData.error(status, message, data), Instant.now());
-        return new ResponseEntity<>(response, status);
+    public static <T> ApiResponse<T> error(String code, String message, Object details) {
+        return new ApiResponse<>(false, RestData.error(code, message, details), Instant.now());
     }
 }

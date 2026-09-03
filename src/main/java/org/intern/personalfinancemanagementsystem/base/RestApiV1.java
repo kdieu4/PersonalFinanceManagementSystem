@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@RestController(ApiPath.API_V1)
-@RequestMapping
+@RestController
+@RequestMapping(ApiPath.API_V1)
 public @interface RestApiV1 {
 }

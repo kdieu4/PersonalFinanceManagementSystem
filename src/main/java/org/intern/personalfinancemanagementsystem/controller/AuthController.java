@@ -1,6 +1,5 @@
 package org.intern.personalfinancemanagementsystem.controller;
 
-import com.sun.net.httpserver.Authenticator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -13,6 +12,7 @@ import org.intern.personalfinancemanagementsystem.base.RestData;
 import org.intern.personalfinancemanagementsystem.constant.SuccessMessage;
 import org.intern.personalfinancemanagementsystem.constant.UrlConstant;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.RegisterRequest;
+import org.intern.personalfinancemanagementsystem.domain.dto.response.RegisterResponse;
 import org.intern.personalfinancemanagementsystem.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +30,8 @@ public class AuthController {
 
     @Operation(summary = "Đăng ký tài khoản")
     @PostMapping(UrlConstant.Auth.REGISTER)
-    public ResponseEntity<ApiResponse<RestData<Void>>> register(@Valid @RequestBody RegisterRequest request) {
-        authService.register(request);
-        return ApiResponse.success(HttpStatus.OK, SuccessMessage.Auth.REGISTER_SUCCESS, null);
+    public ResponseEntity<ApiResponse<RegisterResponse>> register(@Valid @RequestBody RegisterRequest request) {
+        RegisterResponse response = authService.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(SuccessMessage.Auth.REGISTER_SUCCESS, response));
     }
 }
