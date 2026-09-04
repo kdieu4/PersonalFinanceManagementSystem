@@ -16,4 +16,8 @@ public final class ErrorMessage {
     public static final class User {
         public static final String EMAIL_EXISTED = "Email is already existed. Please use another email or log in";
     }
+
+    public static final class Auth {
+        public static final String INVALID_CREDENTIALS = "Invalid email or password";
+    }
 }
