@@ -1,0 +1,32 @@
+services:
+  pfms-db:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: personal_finance_management_system
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  pfms-backend:
+    build: .
+    depends_on:
+      pfms-db:
+        condition: service_healthy
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://pfms-db:5432/personal_finance_management_system
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456
+
+volumes:
+  postgres_data:
