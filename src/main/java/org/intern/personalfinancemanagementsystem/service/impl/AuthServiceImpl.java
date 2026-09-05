@@ -19,7 +19,6 @@ import org.intern.personalfinancemanagementsystem.service.AuthService;
 import org.intern.personalfinancemanagementsystem.service.JwtService;
 import org.intern.personalfinancemanagementsystem.service.RedisTokenService;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
 
         // 4. Sinh token
         String accessToken = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
 
         // 5. Luu token
         redisTokenService.save(RedisToken.builder()

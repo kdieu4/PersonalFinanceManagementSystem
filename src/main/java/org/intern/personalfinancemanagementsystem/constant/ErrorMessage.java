@@ -19,5 +19,6 @@ public final class ErrorMessage {
 
     public static final class Auth {
         public static final String INVALID_CREDENTIALS = "Invalid email or password";
+        public static final String INVALID_LOGOUT_TOKEN = "Invalid token provided for logout";
     }
 }

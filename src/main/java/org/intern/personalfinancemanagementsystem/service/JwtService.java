@@ -4,4 +4,5 @@ import org.intern.personalfinancemanagementsystem.domain.entity.User;
 
 public interface JwtService {
     String generateToken(User user);
+    String generateRefreshToken(User user);
 }
