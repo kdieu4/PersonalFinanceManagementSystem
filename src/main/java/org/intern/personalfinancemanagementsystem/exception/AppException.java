@@ -24,7 +24,7 @@ public class AppException extends RuntimeException {
 
     public AppException(String[] params, String message) {
         super(message);
-        this.errorCode = ErrorMessage.INTERNAL_SERVER_ERROR_CODE;
+        this.errorCode = ErrorMessage.INTERNAL_SERVER_ERROR;
         this.params = params;
         this.errorMessage = message;
     }
@@ -32,7 +32,7 @@ public class AppException extends RuntimeException {
     public AppException(String message, String[] params) {
         super(message);
         this.errorMessage = message;
-        this.errorCode = ErrorMessage.INTERNAL_SERVER_ERROR_CODE;
+        this.errorCode = ErrorMessage.INTERNAL_SERVER_ERROR;
         this.params = params;
     }
 
@@ -40,6 +40,6 @@ public class AppException extends RuntimeException {
         super(message);
         this.status = status;
         this.errorMessage = message;
-        this.errorCode = ErrorMessage.INTERNAL_SERVER_ERROR_CODE;
+        this.errorCode = ErrorMessage.INTERNAL_SERVER_ERROR;
     }
 }

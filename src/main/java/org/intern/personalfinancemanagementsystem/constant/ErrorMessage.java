@@ -1,7 +1,7 @@
 package org.intern.personalfinancemanagementsystem.constant;
 
 public final class ErrorMessage {
-    public static final String INTERNAL_SERVER_ERROR_CODE = "INTERNAL_SERVER_ERROR";
+    public static final String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
     public static final String VALIDATION_FAILED_CODE = "VALIDATION_FAILED";
     public static final String FORBIDDEN_CODE = "FORBIDDEN";
 
@@ -20,5 +20,8 @@ public final class ErrorMessage {
     public static final class Auth {
         public static final String INVALID_CREDENTIALS = "Invalid email or password";
         public static final String INVALID_LOGOUT_TOKEN = "Invalid token provided for logout";
+        public static final String TOKEN_ALREADY_INVALIDATED = "This session is already logged out";
+        public static final String GENERATE_JWT_ERROR = "Error while signing JWT";
+        public static final String ERR_GET_TOKEN_CLAIM_SET_FAIL = "Error while claiming set";
     }
 }

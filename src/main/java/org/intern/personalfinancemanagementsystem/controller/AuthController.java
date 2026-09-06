@@ -12,6 +12,7 @@ import org.intern.personalfinancemanagementsystem.base.RestData;
 import org.intern.personalfinancemanagementsystem.constant.SuccessMessage;
 import org.intern.personalfinancemanagementsystem.constant.UrlConstant;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.LoginRequest;
+import org.intern.personalfinancemanagementsystem.domain.dto.request.LogoutRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.RegisterRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.LoginResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RegisterResponse;
@@ -44,5 +45,10 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Auth.LOGIN_SUCCESS, response));
     }
 
-
+    @Operation(summary = "Đăng xuất")
+    @PostMapping(UrlConstant.Auth.LOGOUT)
+    public ResponseEntity<ApiResponse<Void>> logout(@Valid @RequestBody LogoutRequest request) {
+        authService.logout(request);
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Auth.LOGOUT_SUCCESS, null));
+    }
 }

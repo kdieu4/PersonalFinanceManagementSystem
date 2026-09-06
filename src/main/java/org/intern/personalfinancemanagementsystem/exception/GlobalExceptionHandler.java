@@ -44,6 +44,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleGeneral(Exception ex){
         log.error("Hệ thống lỗi nghiêm trọng: ", ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.error(ErrorMessage.INTERNAL_SERVER_ERROR_CODE, ErrorMessage.INTERNAL_SERVER_ERROR_MESSAGE));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.error(ErrorMessage.INTERNAL_SERVER_ERROR, ErrorMessage.INTERNAL_SERVER_ERROR_MESSAGE));
     }
 }

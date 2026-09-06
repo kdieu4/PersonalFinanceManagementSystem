@@ -9,4 +9,5 @@ import org.intern.personalfinancemanagementsystem.domain.dto.response.RegisterRe
 public interface AuthService {
     RegisterResponse register(RegisterRequest request);
     LoginResponse login(LoginRequest request);
+    void logout(LogoutRequest request);
 }

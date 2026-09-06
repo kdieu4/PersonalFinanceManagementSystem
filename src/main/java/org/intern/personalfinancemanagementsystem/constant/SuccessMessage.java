@@ -6,5 +6,6 @@ public final class SuccessMessage {
     public static final class Auth {
         public static final String REGISTER_SUCCESS = "Register successfully.";
         public static final String LOGIN_SUCCESS = "Login successfully";
+        public static final String LOGOUT_SUCCESS = "Logout successfully";
     }
 }

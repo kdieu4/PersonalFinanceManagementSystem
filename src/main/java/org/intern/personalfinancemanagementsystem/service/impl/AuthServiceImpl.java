@@ -1,17 +1,20 @@
 package org.intern.personalfinancemanagementsystem.service.impl;
 
+import com.nimbusds.jwt.SignedJWT;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.LoginRequest;
+import org.intern.personalfinancemanagementsystem.domain.dto.request.LogoutRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.RegisterRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.LoginResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RegisterResponse;
 import org.intern.personalfinancemanagementsystem.domain.entity.Role;
 import org.intern.personalfinancemanagementsystem.domain.entity.User;
 import org.intern.personalfinancemanagementsystem.exception.AppException;
+import org.intern.personalfinancemanagementsystem.repository.InvalidatedTokenRepository;
 import org.intern.personalfinancemanagementsystem.repository.UserRepository;
 import org.intern.personalfinancemanagementsystem.service.AuthService;
 import org.intern.personalfinancemanagementsystem.service.JwtService;
@@ -19,6 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.ParseException;
 
 @Service
 @Slf4j
@@ -28,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
     JwtService jwtService;
-    RedisTokenService redisTokenService;
+    InvalidatedTokenRepository invalidatedTokenRepository;
 
     @Override
     @Transactional
@@ -78,6 +83,31 @@ public class AuthServiceImpl implements AuthService {
         String refreshToken = jwtService.generateRefreshToken(user);
 
         // 5. Tra ve
-        return new LoginResponse(user.getEmail(), accessToken, refreshToken);
+        return new LoginResponse(user.getEmail(), refreshToken, accessToken);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void logout(LogoutRequest request) {
+        try {
+            // 1. Lay id
+            SignedJWT signedJWT = SignedJWT.parse(request.refreshToken());
+            String jti = signedJWT.getJWTClaimsSet().getJWTID();
+            // 2. Xac thuc token
+            if (jwtService.isAccessToken(signedJWT)) {
+                throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.INVALID_LOGOUT_TOKEN);
+            }
+            if (invalidatedTokenRepository.existsById(jti)) {
+                throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.TOKEN_ALREADY_INVALIDATED);
+            }
+            // 3. Luu thong tin vua lay vao db
+            jwtService.invalidatedToken(signedJWT);
+        } catch (ParseException e) {
+            throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.INVALID_LOGOUT_TOKEN);
+        } catch (AppException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.INTERNAL_SERVER_ERROR);
+        }
     }
 }
