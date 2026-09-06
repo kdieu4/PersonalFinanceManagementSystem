@@ -1,6 +1,5 @@
 package org.intern.personalfinancemanagementsystem.service.impl;
 
-import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -10,17 +9,16 @@ import org.intern.personalfinancemanagementsystem.domain.dto.request.LoginReques
 import org.intern.personalfinancemanagementsystem.domain.dto.request.RegisterRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.LoginResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RegisterResponse;
-import org.intern.personalfinancemanagementsystem.domain.entity.RedisToken;
 import org.intern.personalfinancemanagementsystem.domain.entity.Role;
 import org.intern.personalfinancemanagementsystem.domain.entity.User;
 import org.intern.personalfinancemanagementsystem.exception.AppException;
 import org.intern.personalfinancemanagementsystem.repository.UserRepository;
 import org.intern.personalfinancemanagementsystem.service.AuthService;
 import org.intern.personalfinancemanagementsystem.service.JwtService;
-import org.intern.personalfinancemanagementsystem.service.RedisTokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -79,14 +77,7 @@ public class AuthServiceImpl implements AuthService {
         String accessToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
-        // 5. Luu token
-        redisTokenService.save(RedisToken.builder()
-                .id(user.getEmail())
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build());
-
-        // 6. Tra ve
+        // 5. Tra ve
         return new LoginResponse(user.getEmail(), accessToken, refreshToken);
     }
 }
