@@ -94,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
             SignedJWT signedJWT = SignedJWT.parse(request.refreshToken());
             String jti = signedJWT.getJWTClaimsSet().getJWTID();
             // 2. Xac thuc token
-            if (jwtService.isAccessToken(signedJWT)) {
+            if (jwtService.isAccessToken(request.refreshToken())) {
                 throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.INVALID_LOGOUT_TOKEN);
             }
             if (invalidatedTokenRepository.existsById(jti)) {

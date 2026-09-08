@@ -1,6 +1,7 @@
 package org.intern.personalfinancemanagementsystem.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -8,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.intern.personalfinancemanagementsystem.base.ApiResponse;
 import org.intern.personalfinancemanagementsystem.base.RestApiV1;
-import org.intern.personalfinancemanagementsystem.base.RestData;
 import org.intern.personalfinancemanagementsystem.constant.SuccessMessage;
 import org.intern.personalfinancemanagementsystem.constant.UrlConstant;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.LoginRequest;
@@ -47,6 +47,7 @@ public class AuthController {
 
     @Operation(summary = "Đăng xuất")
     @PostMapping(UrlConstant.Auth.LOGOUT)
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<Void>> logout(@Valid @RequestBody LogoutRequest request) {
         authService.logout(request);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Auth.LOGOUT_SUCCESS, null));
