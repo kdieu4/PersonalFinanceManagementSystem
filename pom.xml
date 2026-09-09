@@ -182,6 +182,11 @@
                         </configuration>
                     </execution>
                 </executions>
+<!--                <configuration>-->
+<!--                    <compilerArgs>-->
+<!--                        <arg>-parameters</arg>-->
+<!--                    </compilerArgs>-->
+<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>

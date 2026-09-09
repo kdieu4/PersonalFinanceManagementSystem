@@ -4,6 +4,8 @@ public final class ErrorMessage {
     public static final String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
     public static final String VALIDATION_FAILED_CODE = "VALIDATION_FAILED";
     public static final String FORBIDDEN_CODE = "FORBIDDEN";
+    public static final String NOT_FOUND_CODE = "NOT_FOUND";
+    public static final String BAD_REQUEST_CODE = "BAD_REQUEST";
 
     public static final String INVALID_FIELD = "The field is not valid.";
     public static final String NOT_BLANK_FIELD = "The field cannot be blank.";
@@ -16,6 +18,7 @@ public final class ErrorMessage {
     public static final class User {
         public static final String EMAIL_EXISTED = "Email is already existed. Please use another email or log in";
         public static final String USER_NOT_EXISTED = "User does not exist.";
+        public static final String NULL_POINTER = "User does not exist.";
     }
 
     public static final class Auth {
@@ -24,5 +27,7 @@ public final class ErrorMessage {
         public static final String TOKEN_ALREADY_INVALIDATED = "This session is already logged out";
         public static final String GENERATE_JWT_ERROR = "Error while signing JWT";
         public static final String ERR_GET_TOKEN_CLAIM_SET_FAIL = "Error while claiming set";
+        public static final String INVALID_PASSWORD = "Invalid password";
+        public static final String PASSWORD_SAME_AS_OLD = "New password must be different from the current password";
     }
 }

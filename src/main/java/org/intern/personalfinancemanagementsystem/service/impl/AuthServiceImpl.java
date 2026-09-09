@@ -65,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
     public LoginResponse login(LoginRequest request) {
         // 1. Kiem tra email
         User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new AppException(HttpStatus.UNAUTHORIZED, ErrorMessage.Auth.INVALID_CREDENTIALS));
+                .orElseThrow(() -> new AppException(HttpStatus.UNAUTHORIZED, ErrorMessage.Auth.INVALID_CREDENTIALS, ErrorMessage.NOT_FOUND_CODE));
 
         // 2. Kiem tra active
         if (!user.getIsActive()) {

@@ -42,4 +42,11 @@ public class AppException extends RuntimeException {
         this.errorMessage = message;
         this.errorCode = ErrorMessage.INTERNAL_SERVER_ERROR;
     }
+
+    public AppException(HttpStatus status, String message, String code) {
+        super(message);
+        this.status = status;
+        this.errorMessage = message;
+        this.errorCode = code;
+    }
 }
