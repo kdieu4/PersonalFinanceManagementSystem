@@ -11,9 +11,12 @@ public final class ErrorMessage {
     public static final String NOT_BLANK_FIELD = "The field cannot be blank.";
     public static final String INVALID_FORMAT_EMAIL = "Please enter a valid email address.";
     public static final String INVALID_FORMAT_PASSWORD = "Password must be 6-120 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.";
+    public static final String INVALID_PHONE_NUMBER = "Invalid phone number format.";
+    public static final String INVALID_FORMAT_FULL_NAME = "Full name must be less than 120 characters long.";
     public static final String FORBIDDEN_MESSAGE = "You do not have permission to access this resource.";
     public static final String INTERNAL_SERVER_ERROR_MESSAGE = "An internal system error occurred.";
     public static final String PASSWORD_MISMATCH = "Password do not match.";
+    public static final String INVALID_DATE_OF_BIRTH = "Date of birth must be in the past or present";
 
     public static final class User {
         public static final String EMAIL_EXISTED = "Email is already existed. Please use another email or log in";

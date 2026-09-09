@@ -12,6 +12,7 @@ public final class SuccessMessage {
 
     public static final class User {
         public static final String GET_PROFILE_SUCCESS = "Profile retrieved successfully";
+        public static final String UPDATE_PROFILE_SUCCESS = "Update profile successfully";
         public static final String CHANGE_PASSWORD_SUCCESS = "Password changed successfully";
     }
 }

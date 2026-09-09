@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.ChangePasswordRequest;
+import org.intern.personalfinancemanagementsystem.domain.dto.request.UpdateProfileRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.UserProfileResponse;
 import org.intern.personalfinancemanagementsystem.domain.entity.User;
 import org.intern.personalfinancemanagementsystem.exception.AppException;
@@ -28,6 +29,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileResponse getProfile(String email) {
         return UserProfileResponse.from(findByEmail(email));
+    }
+
+    @Override
+    public UserProfileResponse updateProfile(String email, UpdateProfileRequest request) {
+        User user = findByEmail(email);
+
+        user.setFullName(request.fullName());
+        user.setPhoneNumber(request.phoneNumber());
+        user.setDateOfBirth(request.dateOfBirth());
+
+        return UserProfileResponse.from(userRepository.save(user));
     }
 
     @Override
