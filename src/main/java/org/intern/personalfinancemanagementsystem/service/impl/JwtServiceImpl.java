@@ -97,8 +97,9 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public void invalidatedToken(SignedJWT signedJWT) {
+    public void invalidatedToken(String token) {
         try {
+            SignedJWT signedJWT = SignedJWT.parse(token);
             InvalidatedToken invalidatedToken = InvalidatedToken.builder()
                     .id(signedJWT.getJWTClaimsSet().getJWTID())
                     .expiryTime(signedJWT.getJWTClaimsSet().getExpirationTime())

@@ -8,14 +8,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.LoginRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.LogoutRequest;
+import org.intern.personalfinancemanagementsystem.domain.dto.request.RefreshTokenRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.RegisterRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.LoginResponse;
+import org.intern.personalfinancemanagementsystem.domain.dto.response.RefreshTokenResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RegisterResponse;
 import org.intern.personalfinancemanagementsystem.domain.entity.Role;
 import org.intern.personalfinancemanagementsystem.domain.entity.User;
 import org.intern.personalfinancemanagementsystem.exception.AppException;
 import org.intern.personalfinancemanagementsystem.repository.InvalidatedTokenRepository;
 import org.intern.personalfinancemanagementsystem.repository.UserRepository;
+import org.intern.personalfinancemanagementsystem.security.CustomUserDetails;
 import org.intern.personalfinancemanagementsystem.service.AuthService;
 import org.intern.personalfinancemanagementsystem.service.JwtService;
 import org.springframework.http.HttpStatus;
@@ -101,7 +104,7 @@ public class AuthServiceImpl implements AuthService {
                 throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.TOKEN_ALREADY_INVALIDATED);
             }
             // 3. Luu thong tin vua lay vao db
-            jwtService.invalidatedToken(signedJWT);
+            jwtService.invalidatedToken(request.refreshToken());
         } catch (ParseException e) {
             throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.INVALID_LOGOUT_TOKEN);
         } catch (AppException e) {
@@ -110,4 +113,25 @@ public class AuthServiceImpl implements AuthService {
             throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    public RefreshTokenResponse refreshToken(RefreshTokenRequest request) {
+        // 1. Lay user
+        String email = jwtService.extractEmail(request.refreshToken());
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.User.USER_NOT_EXISTED, ErrorMessage.BAD_REQUEST_CODE));
+        CustomUserDetails userDetails = new CustomUserDetails(user);
+
+        // 2. check validate token
+        if (jwtService.isTokenValid(request.refreshToken(), userDetails) && jwtService.isAccessToken(request.refreshToken())) {
+            throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.INVALID_REFRESH_TOKEN, ErrorMessage.BAD_REQUEST_CODE);
+        }
+
+        // 3. Tao token
+        String newAccessToken = jwtService.generateToken(user);
+
+        return new RefreshTokenResponse(newAccessToken);
+    }
+
+
 }

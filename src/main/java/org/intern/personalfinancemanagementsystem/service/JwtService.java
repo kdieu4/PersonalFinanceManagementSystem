@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public interface JwtService {
     String generateToken(User user);
     String generateRefreshToken(User user);
-    void invalidatedToken(SignedJWT signedJWT);
+    void invalidatedToken(String token);
     boolean isAccessToken(String token);
     void cleanUpExpiredTokens();
     String extractEmail(String token);

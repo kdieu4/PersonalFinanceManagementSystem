@@ -13,8 +13,10 @@ import org.intern.personalfinancemanagementsystem.constant.SuccessMessage;
 import org.intern.personalfinancemanagementsystem.constant.UrlConstant;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.LoginRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.LogoutRequest;
+import org.intern.personalfinancemanagementsystem.domain.dto.request.RefreshTokenRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.RegisterRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.LoginResponse;
+import org.intern.personalfinancemanagementsystem.domain.dto.response.RefreshTokenResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RegisterResponse;
 import org.intern.personalfinancemanagementsystem.service.AuthService;
 import org.springframework.http.HttpStatus;
@@ -52,4 +54,13 @@ public class AuthController {
         authService.logout(request);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Auth.LOGOUT_SUCCESS, null));
     }
+
+    @Operation(summary = "Refresh Token", description = "Lấy access token mới khi access token cũ đã hết hạn")
+    @PostMapping(UrlConstant.Auth.REFRESH_TOKEN)
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<ApiResponse<RefreshTokenResponse>> refreshToken(@Valid @RequestBody RefreshTokenRequest request) {
+        RefreshTokenResponse response = authService.refreshToken(request);
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Auth.REFRESH_TOKEN_SUCCESS, response));
+    }
+
 }
