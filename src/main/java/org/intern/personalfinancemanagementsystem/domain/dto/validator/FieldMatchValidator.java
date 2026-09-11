@@ -1,14 +1,11 @@
-package org.intern.personalfinancemanagementsystem.base;
+package org.intern.personalfinancemanagementsystem.domain.dto.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.ChangePasswordRequest;
-import org.intern.personalfinancemanagementsystem.exception.AppException;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
-import org.springframework.http.HttpStatus;
 
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, ChangePasswordRequest> {
     private String first;

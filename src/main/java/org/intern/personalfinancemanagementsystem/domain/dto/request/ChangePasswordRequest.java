@@ -2,7 +2,7 @@ package org.intern.personalfinancemanagementsystem.domain.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import org.intern.personalfinancemanagementsystem.base.FieldMatch;
+import org.intern.personalfinancemanagementsystem.domain.dto.validator.FieldMatch;
 import org.intern.personalfinancemanagementsystem.constant.CommonConstant;
 import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
 

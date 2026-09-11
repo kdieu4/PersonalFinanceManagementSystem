@@ -8,6 +8,7 @@ public final class SuccessMessage {
         public static final String LOGIN_SUCCESS = "Login successfully";
         public static final String LOGOUT_SUCCESS = "Logout successfully";
         public static final String REFRESH_TOKEN_SUCCESS = "Refresh token successfully";
+        public static final String SEND_OTP_SUCCESS = "OTP sent successfully";
     }
 
     public static final class User {

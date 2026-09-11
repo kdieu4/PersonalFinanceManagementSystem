@@ -7,14 +7,12 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.intern.personalfinancemanagementsystem.base.ApiResponse;
 import org.intern.personalfinancemanagementsystem.base.RestApiV1;
 import org.intern.personalfinancemanagementsystem.constant.SuccessMessage;
 import org.intern.personalfinancemanagementsystem.constant.UrlConstant;
-import org.intern.personalfinancemanagementsystem.domain.dto.request.LoginRequest;
-import org.intern.personalfinancemanagementsystem.domain.dto.request.LogoutRequest;
-import org.intern.personalfinancemanagementsystem.domain.dto.request.RefreshTokenRequest;
-import org.intern.personalfinancemanagementsystem.domain.dto.request.RegisterRequest;
+import org.intern.personalfinancemanagementsystem.domain.dto.request.*;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.LoginResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RefreshTokenResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RegisterResponse;
@@ -27,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestApiV1
 @Validated
+@Slf4j
 @Tag(name = "Authentication")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -63,4 +62,11 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Auth.REFRESH_TOKEN_SUCCESS, response));
     }
 
+    @Operation(summary = "Quên mật khẩu", description = "Gửi otp qua email hoặc SMS để xác nhận tài khoản")
+    @PostMapping(UrlConstant.Auth.FORGOT_PASSWORD)
+    public ResponseEntity<ApiResponse<Void>> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        log.info("---forgot password controller----");
+        authService.forgotPassword(request);
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Auth.SEND_OTP_SUCCESS, null));
+    }
 }
