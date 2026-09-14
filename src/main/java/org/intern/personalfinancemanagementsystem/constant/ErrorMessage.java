@@ -6,6 +6,7 @@ public final class ErrorMessage {
     public static final String FORBIDDEN_CODE = "FORBIDDEN";
     public static final String NOT_FOUND_CODE = "NOT_FOUND";
     public static final String BAD_REQUEST_CODE = "BAD_REQUEST";
+    public static final String TOO_MANY_REQUEST_CODE = "TOO_MANY_REQUEST";
 
     public static final String INVALID_FIELD = "The field is not valid.";
     public static final String NOT_BLANK_FIELD = "The field cannot be blank.";

@@ -1,15 +1,12 @@
 package org.intern.personalfinancemanagementsystem.service.impl;
 
 import com.nimbusds.jwt.SignedJWT;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
-import org.intern.personalfinancemanagementsystem.constant.KafkaConstant;
 import org.intern.personalfinancemanagementsystem.constant.RedisConstant;
-import org.intern.personalfinancemanagementsystem.domain.dto.message.ForgotPasswordMessage;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.*;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.LoginResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RefreshTokenResponse;
@@ -22,17 +19,18 @@ import org.intern.personalfinancemanagementsystem.repository.UserRepository;
 import org.intern.personalfinancemanagementsystem.security.CustomUserDetails;
 import org.intern.personalfinancemanagementsystem.service.AuthService;
 import org.intern.personalfinancemanagementsystem.service.JwtService;
+import org.intern.personalfinancemanagementsystem.service.OtpSender;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
 import java.security.SecureRandom;
 import java.text.ParseException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -47,6 +45,7 @@ public class AuthServiceImpl implements AuthService {
     StringRedisTemplate stringRedisTemplate;
     KafkaTemplate<String, String> kafkaTemplate;
     ObjectMapper objectMapper;
+    Map<String, OtpSender> otpSenders;
 
     @Override
     @Transactional
@@ -146,47 +145,32 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void forgotPassword(ForgotPasswordRequest request) {
         log.info("----forgot password---");
+
+        OtpSender otpSender;
         if (request.emailOrPhoneNumber().contains("@")) {
-            sendOtpViaEmail(request.emailOrPhoneNumber());
-        } else sendOtpViaSms(request.emailOrPhoneNumber());
+            otpSender = otpSenders.get("email");
+            if (!userRepository.existsByEmail(request.emailOrPhoneNumber())) {
+                throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.User.USER_NOT_EXISTED, ErrorMessage.BAD_REQUEST_CODE);
+            }
+        } else {
+            otpSender = otpSenders.get("sms");
+            if (!userRepository.existsByPhoneNumber(request.emailOrPhoneNumber())) {
+                throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.User.USER_NOT_EXISTED, ErrorMessage.BAD_REQUEST_CODE);
+            }
+        }
+        String otp = generateAndSaveOtp(request.emailOrPhoneNumber());
+        otpSender.send(request.emailOrPhoneNumber(), otp);
     }
 
-    private void sendOtpViaSms(String phoneNumber) {
-    }
-
-    private void sendOtpViaEmail(String email) {
-        log.info("----send otp via email----");
-        // 1. Tim user
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.User.USER_NOT_EXISTED, ErrorMessage.BAD_REQUEST_CODE));
-        String key = RedisConstant.OTP_FORGOT_PASSWORD_KEY + email;
-        // 2. Kiem tra user co otp chua
-//        if (stringRedisTemplate.hasKey(key)) {
-//            throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.OTP_ALREADY_SENT, ErrorMessage.BAD_REQUEST_CODE);
-//        }
-        // 3. Tao va luu token
+    private String generateAndSaveOtp(String identifier) {
+        String key = RedisConstant.OTP_FORGOT_PASSWORD_KEY + identifier;
+        // 1. Kiem tra user co otp chua
+        if (stringRedisTemplate.hasKey(key)) {
+            throw new AppException(HttpStatus.TOO_MANY_REQUESTS, ErrorMessage.Auth.OTP_ALREADY_SENT, ErrorMessage.TOO_MANY_REQUEST_CODE);
+        }
+        // 2. Tao va luu token
         String otp = String.format("%06d", new SecureRandom().nextInt(1000000));
         stringRedisTemplate.opsForValue().set(key, otp, RedisConstant.OTP_FORGOT_PASSWORD_TTL, TimeUnit.MINUTES);
-
-        // 4. Tao va gui message
-        try {
-            ForgotPasswordMessage forgotPasswordMessage = new ForgotPasswordMessage(email, otp);
-            String jsonString = objectMapper.writeValueAsString(forgotPasswordMessage);
-            kafkaTemplate.send(KafkaConstant.FORGOT_PASSWORD_TOPIC, jsonString)
-                    .whenComplete((result, exception) -> {
-                        if (exception != null) {
-                            log.error("Kafka gửi thất bại", exception);
-                        } else {
-                            log.info(
-                                    "Kafka gửi thành công: partition={}, offset={}",
-                                    result.getRecordMetadata().partition(),
-                                    result.getRecordMetadata().offset()
-                            );
-                        }
-                    });
-        } catch (JacksonException e) {
-            log.error("Lỗi gửi gửi otp");
-            throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.INTERNAL_SERVER_ERROR_MESSAGE);
-        }
+        return otp;
     }
 }
