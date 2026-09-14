@@ -37,5 +37,6 @@ public final class ErrorMessage {
         public static final String INVALID_PASSWORD = "Invalid password";
         public static final String PASSWORD_SAME_AS_OLD = "New password must be different from the current password";
         public static final String OTP_ALREADY_SENT = "OTP is already sent";
+        public static final String ERR_SEND_OTP_SMS = "Send OTP via SMS is fail";
     }
 }

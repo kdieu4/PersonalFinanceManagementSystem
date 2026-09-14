@@ -9,6 +9,7 @@ public final class CommonConstant {
     public static final String EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,6}$";
     public static final String PHONE_REGEX = "^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}.{0,15}$";
     public static final int DATE_OF_BIRTH_LENGTH = 15;
+    public static final String MESSAGE_OTP_SMS = " là mã xác minh DIDI của bạn. Đừng chia sẻ với bất kỳ ai.";
 
     public static final class User {
         public static final int AVATAR_LENGTH = 500;
