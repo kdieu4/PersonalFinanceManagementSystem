@@ -18,4 +18,6 @@ public interface AuthService {
     void forgotPassword(ForgotPasswordRequest request);
 
     VerifyOtpResponse verifyOtp(VerifyOtpRequest request);
+
+    void resetPassword(ResetPasswordRequest request);
 }

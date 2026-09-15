@@ -2,12 +2,11 @@ package org.intern.personalfinancemanagementsystem.domain.dto.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.intern.personalfinancemanagementsystem.domain.dto.request.ChangePasswordRequest;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
 
-public class FieldMatchValidator implements ConstraintValidator<FieldMatch, ChangePasswordRequest> {
+public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
     private String first;
     private String second;
 
@@ -19,11 +18,11 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Chan
     }
 
     @Override
-    public boolean isValid(ChangePasswordRequest value, ConstraintValidatorContext context) {
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
         try {
             BeanWrapper beanWrapper = new BeanWrapperImpl(value);
-            Object firstObject = beanWrapper.getPropertyValue(first);
-            Object secondObject = beanWrapper.getPropertyValue(second);
+            java.lang.Object firstObject = beanWrapper.getPropertyValue(first);
+            java.lang.Object secondObject = beanWrapper.getPropertyValue(second);
             return firstObject != null && firstObject.equals(secondObject);
         } catch (BeansException e) {
             return false;

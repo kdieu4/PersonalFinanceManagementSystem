@@ -31,6 +31,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.security.SecureRandom;
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -166,18 +167,41 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public VerifyOtpResponse verifyOtp(VerifyOtpRequest request) {
         // 1. Xac thuc identity
-        log.info("---Otp request: {}", request.otp());
         User user = userRepository.findByEmail(request.identity())
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.User.USER_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));
         // 2. Kiem tra otp
         String key = RedisConstant.OTP_FORGOT_PASSWORD_KEY + request.identity();
         String storedOtp = stringRedisTemplate.opsForValue().get(key);
-        log.info("---StoredOtp: {}", storedOtp);
         if (storedOtp == null || !storedOtp.equals(request.otp())) {
             throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.INVALID_OTP, ErrorMessage.BAD_REQUEST_CODE);
         }
-        // 3. Tra ve user
+        // 3. Xoa key trong redis
+        stringRedisTemplate.delete(key);
+        String resetKey = RedisConstant.RESET_PASSWORD_VERIFIED_KEY + request.identity();
+        stringRedisTemplate.opsForValue().set(resetKey, "true", 10, TimeUnit.MINUTES);
+        // 4. Tra ve user
         return VerifyOtpResponse.from(user);
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordRequest request) {
+        // 1. Kiem tra reset password con han ko
+        String verified = stringRedisTemplate.opsForValue().get(RedisConstant.RESET_PASSWORD_VERIFIED_KEY + request.identifier());
+        if (verified.equals(request.identifier())) {
+            throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.RESET_SESSION_EXPIRED);
+        }
+        // 2. Lay user
+        User user = userRepository.findByEmail(request.identifier())
+                .orElseThrow(() -> new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.User.USER_NOT_EXISTED, ErrorMessage.BAD_REQUEST_CODE));
+
+        if (user.getPassword() != null && passwordEncoder.matches(request.newPassword(), user.getPassword())) {
+            throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.PASSWORD_SAME_AS_OLD, ErrorMessage.BAD_REQUEST_CODE);
+        }
+        user.setPassword(passwordEncoder.encode(request.newPassword()));
+        user.setPasswordChangedAt(Instant.now());
+        userRepository.save(user);
+        // 3. Xoa key
+        stringRedisTemplate.delete(RedisConstant.RESET_PASSWORD_VERIFIED_KEY + request.identifier());
     }
 
     private String generateAndSaveOtp(String identifier) {

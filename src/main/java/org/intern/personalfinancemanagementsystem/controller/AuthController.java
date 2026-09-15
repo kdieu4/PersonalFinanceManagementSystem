@@ -77,4 +77,11 @@ public class AuthController {
         VerifyOtpResponse response = authService.verifyOtp(request);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Auth.VERIFY_OTP_SUCCESS, response));
     }
+
+    @Operation(summary = "Đặt lại mật khẩu")
+    @PostMapping(UrlConstant.Auth.RESET_PASSWORD)
+    public ResponseEntity<ApiResponse<Void>> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        authService.resetPassword(request);
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Auth.RESET_PASSWORD_SUCCESS, null));
+    }
 }

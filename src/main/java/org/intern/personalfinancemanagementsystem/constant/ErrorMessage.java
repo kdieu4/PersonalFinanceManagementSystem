@@ -40,5 +40,6 @@ public final class ErrorMessage {
         public static final String OTP_ALREADY_SENT = "OTP is already sent";
         public static final String ERR_SEND_OTP_SMS = "Send OTP via SMS is fail";
         public static final String INVALID_FORMAT_OTP = "OTP must be exactly 6 digits";
+        public static final String RESET_SESSION_EXPIRED = "Your password reset session has expired. Please start the process again.";
     }
 }
