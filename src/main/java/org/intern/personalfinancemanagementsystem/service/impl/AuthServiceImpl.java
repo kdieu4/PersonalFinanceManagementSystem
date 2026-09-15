@@ -11,6 +11,7 @@ import org.intern.personalfinancemanagementsystem.domain.dto.request.*;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.LoginResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RefreshTokenResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RegisterResponse;
+import org.intern.personalfinancemanagementsystem.domain.dto.response.VerifyOtpResponse;
 import org.intern.personalfinancemanagementsystem.domain.entity.Role;
 import org.intern.personalfinancemanagementsystem.domain.entity.User;
 import org.intern.personalfinancemanagementsystem.exception.AppException;
@@ -160,6 +161,23 @@ public class AuthServiceImpl implements AuthService {
         }
         String otp = generateAndSaveOtp(request.emailOrPhoneNumber());
         otpSender.send(request.emailOrPhoneNumber(), otp);
+    }
+
+    @Override
+    public VerifyOtpResponse verifyOtp(VerifyOtpRequest request) {
+        // 1. Xac thuc identity
+        log.info("---Otp request: {}", request.otp());
+        User user = userRepository.findByEmail(request.identity())
+                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.User.USER_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));
+        // 2. Kiem tra otp
+        String key = RedisConstant.OTP_FORGOT_PASSWORD_KEY + request.identity();
+        String storedOtp = stringRedisTemplate.opsForValue().get(key);
+        log.info("---StoredOtp: {}", storedOtp);
+        if (storedOtp == null || !storedOtp.equals(request.otp())) {
+            throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.INVALID_OTP, ErrorMessage.BAD_REQUEST_CODE);
+        }
+        // 3. Tra ve user
+        return VerifyOtpResponse.from(user);
     }
 
     private String generateAndSaveOtp(String identifier) {

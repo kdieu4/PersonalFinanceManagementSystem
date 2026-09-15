@@ -16,6 +16,7 @@ import org.intern.personalfinancemanagementsystem.domain.dto.request.*;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.LoginResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RefreshTokenResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RegisterResponse;
+import org.intern.personalfinancemanagementsystem.domain.dto.response.VerifyOtpResponse;
 import org.intern.personalfinancemanagementsystem.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,8 +66,15 @@ public class AuthController {
     @Operation(summary = "Quên mật khẩu", description = "Gửi otp qua email hoặc SMS để xác nhận tài khoản")
     @PostMapping(UrlConstant.Auth.FORGOT_PASSWORD)
     public ResponseEntity<ApiResponse<Void>> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
-        log.info("---forgot password controller----");
         authService.forgotPassword(request);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Auth.SEND_OTP_SUCCESS, null));
+    }
+
+    @Operation(summary = "Xác thực OTP", description = "Xác thực OTP tu email")
+    @PostMapping(UrlConstant.Auth.VERIFY_OTP)
+    public ResponseEntity<ApiResponse<VerifyOtpResponse>> verifyOtp(@Valid @RequestBody VerifyOtpRequest request) {
+        log.info("---verifying otp---");
+        VerifyOtpResponse response = authService.verifyOtp(request);
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Auth.VERIFY_OTP_SUCCESS, response));
     }
 }

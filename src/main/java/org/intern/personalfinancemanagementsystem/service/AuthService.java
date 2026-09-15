@@ -4,6 +4,7 @@ import org.intern.personalfinancemanagementsystem.domain.dto.request.*;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.LoginResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RefreshTokenResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.RegisterResponse;
+import org.intern.personalfinancemanagementsystem.domain.dto.response.VerifyOtpResponse;
 
 public interface AuthService {
     RegisterResponse register(RegisterRequest request);
@@ -14,5 +15,7 @@ public interface AuthService {
 
     RefreshTokenResponse refreshToken(RefreshTokenRequest request);
 
-    void forgotPassword (ForgotPasswordRequest request);
+    void forgotPassword(ForgotPasswordRequest request);
+
+    VerifyOtpResponse verifyOtp(VerifyOtpRequest request);
 }

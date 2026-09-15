@@ -9,6 +9,7 @@ public final class UrlConstant {
         public static final String LOGOUT = PREFIX + "/logout";
         public static final String REFRESH_TOKEN = PREFIX + "/refresh-token";
         public static final String FORGOT_PASSWORD = PREFIX + "/forgot-password";
+        public static final String VERIFY_OTP = PREFIX + "/verify-otp";
     }
 
     public static class User {

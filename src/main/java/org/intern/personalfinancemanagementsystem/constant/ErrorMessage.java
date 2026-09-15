@@ -29,6 +29,7 @@ public final class ErrorMessage {
 
     public static final class Auth {
         public static final String INVALID_CREDENTIALS = "Invalid email or password";
+        public static final String INVALID_OTP = "Invalid otp";
         public static final String INVALID_LOGOUT_TOKEN = "Invalid token provided for logout";
         public static final String INVALID_REFRESH_TOKEN = "Invalid token provided for refresh token";
         public static final String TOKEN_ALREADY_INVALIDATED = "This session is already logged out";
@@ -38,5 +39,6 @@ public final class ErrorMessage {
         public static final String PASSWORD_SAME_AS_OLD = "New password must be different from the current password";
         public static final String OTP_ALREADY_SENT = "OTP is already sent";
         public static final String ERR_SEND_OTP_SMS = "Send OTP via SMS is fail";
+        public static final String INVALID_FORMAT_OTP = "OTP must be exactly 6 digits";
     }
 }
