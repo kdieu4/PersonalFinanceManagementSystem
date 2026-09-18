@@ -105,8 +105,7 @@ public class AuthServiceImpl implements AuthService {
     public void logout(LogoutRequest request) {
         try {
             // 1. Lay id
-            SignedJWT signedJWT = SignedJWT.parse(request.refreshToken());
-            String jti = signedJWT.getJWTClaimsSet().getJWTID();
+            String jti = jwtService.extractJti(request.refreshToken());
             // 2. Xac thuc token
             if (jwtService.isAccessToken(request.refreshToken())) {
                 throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.INVALID_LOGOUT_TOKEN);
@@ -116,8 +115,6 @@ public class AuthServiceImpl implements AuthService {
             }
             // 3. Luu thong tin vua lay vao db
             jwtService.invalidatedToken(request.refreshToken());
-        } catch (ParseException e) {
-            throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.INVALID_LOGOUT_TOKEN);
         } catch (AppException e) {
             throw e;
         } catch (Exception e) {
@@ -134,7 +131,7 @@ public class AuthServiceImpl implements AuthService {
         CustomUserDetails userDetails = new CustomUserDetails(user);
 
         // 2. check validate token
-        if (jwtService.isTokenValid(request.refreshToken(), userDetails) && jwtService.isAccessToken(request.refreshToken())) {
+        if (!(jwtService.isTokenValid(request.refreshToken(), userDetails)) || jwtService.isAccessToken(request.refreshToken())) {
             throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.INVALID_REFRESH_TOKEN, ErrorMessage.BAD_REQUEST_CODE);
         }
 
@@ -187,7 +184,7 @@ public class AuthServiceImpl implements AuthService {
     public void resetPassword(ResetPasswordRequest request) {
         // 1. Kiem tra reset password con han ko
         String verified = stringRedisTemplate.opsForValue().get(RedisConstant.RESET_PASSWORD_VERIFIED_KEY + request.identifier());
-        if (verified.equals(request.identifier())) {
+        if (!request.identifier().equals(verified)) {
             throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.RESET_SESSION_EXPIRED);
         }
         // 2. Lay user

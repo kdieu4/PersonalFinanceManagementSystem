@@ -12,4 +12,5 @@ public interface JwtService {
     void cleanUpExpiredTokens();
     String extractEmail(String token);
     boolean isTokenValid(String token, UserDetails userDetails);
+    String extractJti(String refreshToken);
 }

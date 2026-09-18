@@ -177,4 +177,14 @@ public class JwtServiceImpl implements JwtService {
             return false;
         }
     }
+
+    @Override
+    public String extractJti(String refreshToken) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(refreshToken);
+            return signedJWT.getJWTClaimsSet().getJWTID();
+        } catch (ParseException e) {
+            throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Auth.INVALID_LOGOUT_TOKEN);
+        }
+    }
 }
