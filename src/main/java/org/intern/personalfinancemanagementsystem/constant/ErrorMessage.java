@@ -7,6 +7,7 @@ public final class ErrorMessage {
     public static final String NOT_FOUND_CODE = "NOT_FOUND";
     public static final String BAD_REQUEST_CODE = "BAD_REQUEST";
     public static final String TOO_MANY_REQUEST_CODE = "TOO_MANY_REQUEST";
+    public static final String CONFLICT_CODE = "CONFLICT";
 
     public static final String INVALID_FIELD = "The field is not valid.";
     public static final String NOT_BLANK_FIELD = "The field cannot be blank.";
@@ -41,5 +42,10 @@ public final class ErrorMessage {
         public static final String ERR_SEND_OTP_SMS = "Send OTP via SMS is fail";
         public static final String INVALID_FORMAT_OTP = "OTP must be exactly 6 digits";
         public static final String RESET_SESSION_EXPIRED = "Your password reset session has expired. Please start the process again.";
+    }
+
+    public static class Category {
+        public static final String CATEGORY_NOT_EXISTED = "Category does not existed";
+        public static final String CATEGORY_EXISTED = "Category is already existed";
     }
 }

@@ -8,6 +8,7 @@ import org.intern.personalfinancemanagementsystem.constant.CommonConstant;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -51,4 +52,7 @@ public class User extends BaseEntity {
 
     @Column(name = "password_changed_at")
     Instant passwordChangedAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<Category> categories;
 }

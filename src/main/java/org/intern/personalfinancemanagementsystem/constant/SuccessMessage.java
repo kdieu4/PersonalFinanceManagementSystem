@@ -18,4 +18,9 @@ public final class SuccessMessage {
         public static final String UPDATE_PROFILE_SUCCESS = "Update profile successfully";
         public static final String CHANGE_PASSWORD_SUCCESS = "Password changed successfully";
     }
+
+    public static final class Category {
+        public static final String GET_ALL_CATEGORIES_SUCCESSFULLY = "Get all categories successfully";
+        public static final String ADD_CATEGORY_SUCCESSFULLY = "Add category successfully";
+    }
 }

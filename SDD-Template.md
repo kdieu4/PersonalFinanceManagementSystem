@@ -306,6 +306,7 @@ erDiagram
         string type
         timestamp created_at
         timestamp updated_at
+        timestamp archived_at
     }
     WALLET {
         uuid id PK

@@ -20,4 +20,11 @@ public final class UrlConstant {
         public static final String UPDATE_PROFILE = PREFIX + "/update-profile";
         public static final String CHANGE_PASSWORD = PREFIX + "/change-password";
     }
+
+    public static class Category {
+        public static final String PREFIX = "/categories";
+
+        public static final String GET_ALL_CATEGORIES = PREFIX + "/list";
+        public static final String ADD_CATEGORY = PREFIX + "/add-category";
+    }
 }
