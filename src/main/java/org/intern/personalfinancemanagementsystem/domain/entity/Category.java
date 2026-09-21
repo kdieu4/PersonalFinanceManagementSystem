@@ -3,6 +3,7 @@ package org.intern.personalfinancemanagementsystem.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @Setter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@SQLRestriction("archived_at IS NULL")
 public class Category extends BaseEntity {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.TIME)
@@ -38,6 +40,8 @@ public class Category extends BaseEntity {
     @Column(nullable = false)
     String name;
     String type;
+
+    String path;
 
     @Column(name = "archived_at")
     Instant archivedAt;

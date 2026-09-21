@@ -47,7 +47,7 @@ public class CategoryController {
     @Operation(summary = "Them danh muc cua nguoi dung hien tai")
     @PostMapping(UrlConstant.Category.ADD_CATEGORY)
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<ApiResponse<UUID>> addCategoriesByUser(
+    public ResponseEntity<ApiResponse<UUID>> addCategoryByUser(
             @AuthenticationPrincipal CustomUserDetails principal,
             @Valid CategoryRequest request) {
         UUID response = categoryService.addCategory(principal.getUsername(), request);
@@ -55,13 +55,24 @@ public class CategoryController {
     }
 
     @Operation(summary = "Cap nhat danh muc cua nguoi dung hien tai")
-    @PutMapping(UrlConstant.Category.UPDATE_CATEGORY)
+    @PutMapping(UrlConstant.Category.UPDATE_DELETE_CATEGORY)
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<ApiResponse<UUID>> updateCategoriesByUser(
+    public ResponseEntity<ApiResponse<UUID>> updateCategoryByUser(
             @AuthenticationPrincipal CustomUserDetails principal,
             @PathVariable UUID categoryId,
             @Valid CategoryRequest request) {
         categoryService.updateCategory(principal.getUsername(), categoryId, request);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Category.UPDATE_CATEGORY_SUCCESSFULLY, null));
+    }
+
+    @Operation(summary = "Xoa danh muc cua nguoi dung hien tai")
+    @PatchMapping(UrlConstant.Category.UPDATE_DELETE_CATEGORY)
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<ApiResponse<Void>> deleteCategoryByUser(
+            @AuthenticationPrincipal CustomUserDetails principal,
+            @PathVariable UUID categoryId
+    ) {
+        categoryService.deleteCategory(categoryId);
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Category.DELETE_CATEGORY_SUCCESSFULLY, null));
     }
 }

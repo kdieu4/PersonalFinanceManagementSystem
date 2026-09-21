@@ -23,5 +23,6 @@ public final class SuccessMessage {
         public static final String GET_ALL_CATEGORIES_SUCCESSFULLY = "Get all categories successfully";
         public static final String ADD_CATEGORY_SUCCESSFULLY = "Add category successfully";
         public static final String UPDATE_CATEGORY_SUCCESSFULLY = "Update category successfully";
+        public static final String DELETE_CATEGORY_SUCCESSFULLY = "Delete category successfully";
     }
 }

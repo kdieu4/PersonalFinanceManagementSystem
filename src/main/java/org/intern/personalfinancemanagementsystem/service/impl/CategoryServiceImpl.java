@@ -1,10 +1,10 @@
 package org.intern.personalfinancemanagementsystem.service.impl;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.SQLRestriction;
 import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.CategoryRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.CategoryDetailResponse;
@@ -20,8 +20,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,6 +31,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Transactional(readOnly = true)
+//@SQLRestriction("archived_at IS NULL")
 public class CategoryServiceImpl implements CategoryService {
     UserService userService;
     CategoryRepository categoryRepository;
@@ -60,6 +61,11 @@ public class CategoryServiceImpl implements CategoryService {
                 .build();
 
         categoryRepository.save(category);
+        
+        String path = parent != null ? parent.getPath() + "/" + category.getId() : category.getId().toString();
+
+        category.setPath(path);
+
         log.info("Category has added successfully, category_id={}", category.getId());
         return category.getId();
     }
@@ -83,6 +89,14 @@ public class CategoryServiceImpl implements CategoryService {
         category.setType(request.type());
 
         log.info("Category has updated successfully, category_id={}", category.getId());
+    }
+
+    @Override
+    @Transactional
+    public void deleteCategory(UUID id) {
+        Category category = getCategoryById(id);
+        String searchPath = id.toString() + "%";
+        categoryRepository.softDeleteCategory(searchPath, Instant.now());
     }
 
     private Category getCategoryById(UUID categoryId) {

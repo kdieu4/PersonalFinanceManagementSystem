@@ -13,4 +13,6 @@ public interface CategoryService {
     UUID addCategory(String email, CategoryRequest request);
 
     void updateCategory(String email, UUID categoryId, CategoryRequest request);
+
+    void deleteCategory(UUID id);
 }

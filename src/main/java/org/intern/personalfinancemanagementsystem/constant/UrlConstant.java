@@ -26,6 +26,6 @@ public final class UrlConstant {
 
         public static final String GET_ALL_CATEGORIES = PREFIX + "/list";
         public static final String ADD_CATEGORY = PREFIX + "/";
-        public static final String UPDATE_CATEGORY = PREFIX + "/{categoryId}";
+        public static final String UPDATE_DELETE_CATEGORY = PREFIX + "/{categoryId}";
     }
 }
