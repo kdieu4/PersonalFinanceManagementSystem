@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    private User findByEmail(String email) {
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.User.USER_NOT_EXISTED));
     }

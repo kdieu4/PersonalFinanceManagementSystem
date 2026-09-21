@@ -11,7 +11,9 @@ import java.util.UUID;
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
     Page<Category> findCategoryByUserEmail(String email, Pageable pageable);
 
-    Optional<Category> findByNameAndUserEmail(String name, String email);
+    Optional<Category> findByIdAndUserEmail(UUID id, String email);
 
     boolean existsByNameAndUserEmail(String name, String email);
+
+    boolean existsByNameAndUserEmailAndIdNot(String name, String email, UUID id);
 }

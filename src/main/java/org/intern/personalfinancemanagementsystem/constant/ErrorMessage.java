@@ -47,5 +47,6 @@ public final class ErrorMessage {
     public static class Category {
         public static final String CATEGORY_NOT_EXISTED = "Category does not existed";
         public static final String CATEGORY_EXISTED = "Category is already existed";
+        public static final String ERR_CYCLIC_CATEGORY = "Category cannot be its own parent";
     }
 }

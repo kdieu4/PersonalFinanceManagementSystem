@@ -20,9 +20,7 @@ import org.intern.personalfinancemanagementsystem.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -54,5 +52,16 @@ public class CategoryController {
             @Valid CategoryRequest request) {
         UUID response = categoryService.addCategory(principal.getUsername(), request);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Category.ADD_CATEGORY_SUCCESSFULLY, response));
+    }
+
+    @Operation(summary = "Cap nhat danh muc cua nguoi dung hien tai")
+    @PutMapping(UrlConstant.Category.UPDATE_CATEGORY)
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<ApiResponse<UUID>> updateCategoriesByUser(
+            @AuthenticationPrincipal CustomUserDetails principal,
+            @PathVariable UUID categoryId,
+            @Valid CategoryRequest request) {
+        categoryService.updateCategory(principal.getUsername(), categoryId, request);
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Category.UPDATE_CATEGORY_SUCCESSFULLY, null));
     }
 }

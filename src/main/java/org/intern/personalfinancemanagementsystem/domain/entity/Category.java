@@ -35,7 +35,7 @@ public class Category extends BaseEntity {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     List<Category> children = new ArrayList<>();
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     String name;
     String type;
 

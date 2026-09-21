@@ -11,4 +11,6 @@ public interface CategoryService {
     PageResponse<List<CategoryDetailResponse>> getAllCategoriesByUser(String email, int pageNo, int pageSize);
 
     UUID addCategory(String email, CategoryRequest request);
+
+    void updateCategory(String email, UUID categoryId, CategoryRequest request);
 }
