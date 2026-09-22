@@ -316,6 +316,7 @@ erDiagram
         string currency
         timestamp created_at
         timestamp updated_at
+        timestamp archived_at
     }
     TRANSACTION {
         uuid id PK

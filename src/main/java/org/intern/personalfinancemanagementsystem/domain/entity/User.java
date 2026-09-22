@@ -55,4 +55,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Category> categories;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<Wallet> wallets;
 }

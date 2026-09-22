@@ -26,4 +26,12 @@ public final class SuccessMessage {
         public static final String DELETE_CATEGORY_SUCCESSFULLY = "Delete category successfully";
         public static final String GET_DETAIL_CATEGORY_SUCCESSFULLY = "Get detail category successfully";
     }
+
+    public static final class Wallet {
+        public static final String GET_ALL_WALLETS_SUCCESSFULLY = "Get all wallets successfully";
+        public static final String ADD_WALLET_SUCCESSFULLY = "Add wallet successfully";
+        public static final String UPDATE_WALLET_SUCCESSFULLY = "Update wallet successfully";
+        public static final String DELETE_WALLET_SUCCESSFULLY = "Delete wallet successfully";
+        public static final String GET_DETAIL_WALLET_SUCCESSFULLY = "Get detail wallet successfully";
+    }
 }

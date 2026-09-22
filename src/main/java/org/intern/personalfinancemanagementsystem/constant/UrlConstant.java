@@ -23,7 +23,11 @@ public final class UrlConstant {
 
     public static class Category {
         public static final String PREFIX = "/categories";
-
         public static final String BY_ID = PREFIX + "/{categoryId}";
+    }
+
+    public static class Wallet {
+        public static final String PREFIX = "/wallets";
+        public static final String BY_ID = PREFIX + "/{walletId}";
     }
 }
