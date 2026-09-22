@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.SQLRestriction;
 import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.CategoryRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.CategoryDetailResponse;
@@ -31,14 +30,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Transactional(readOnly = true)
-//@SQLRestriction("archived_at IS NULL")
 public class CategoryServiceImpl implements CategoryService {
     UserService userService;
     CategoryRepository categoryRepository;
 
     @Override
-    public PageResponse<List<CategoryDetailResponse>> getAllCategoriesByUser(String email, int pageNo, int pageSize) {
-        Page<Category> page = categoryRepository.findCategoryByUserEmail(email, PageRequest.of(pageNo, pageSize));
+    public PageResponse<List<CategoryDetailResponse>> getAllCategoriesByUser(UUID userId, int pageNo, int pageSize) {
+        Page<Category> page = categoryRepository.findCategoryByUserId(userId, PageRequest.of(pageNo, pageSize));
 
         List<CategoryDetailResponse> list = page.stream().map(CategoryDetailResponse::from).toList();
 
@@ -47,11 +45,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public UUID addCategory(String email, CategoryRequest request) {
-        User user = userService.findByEmail(email);
-        Category parent = findByIdAndUserEmail(request.parentId(), email);
+    public UUID addCategory(UUID userId, CategoryRequest request) {
+        User user = userService.getReferenceById(userId);
+        Category parent = findByIdAndUserId(request.parentId(), userId);
 
-        checkCategoryExisted(request.name(), email);
+        checkCategoryExisted(request.name(), userId);
 
         Category category = Category.builder()
                 .user(user)
@@ -61,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .build();
 
         categoryRepository.save(category);
-        
+
         String path = parent != null ? parent.getPath() + "/" + category.getId() : category.getId().toString();
 
         category.setPath(path);
@@ -72,18 +70,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public void updateCategory(String email, UUID categoryId, CategoryRequest request) {
-        User user = userService.findByEmail(email);
-        Category category = getCategoryById(categoryId);
+    public void updateCategory(UUID userId, UUID categoryId, CategoryRequest request) {
+        Category category = findByIdAndUserId(categoryId, userId);
 
         if (categoryId.equals(request.parentId())) {
             throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Category.ERR_CYCLIC_CATEGORY, ErrorMessage.BAD_REQUEST_CODE);
         }
-        Category parent = findByIdAndUserEmail(request.parentId(), email);
+        Category parent = findByIdAndUserId(request.parentId(), userId);
 
-        checkCategoryExistedForUpdate(request.name(), email, categoryId);
+        checkCategoryExistedForUpdate(request.name(), userId, categoryId);
 
-        category.setUser(user);
         category.setParent(parent);
         category.setName(request.name());
         category.setType(request.type());
@@ -93,10 +89,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public void deleteCategory(UUID id) {
-        Category category = getCategoryById(id);
-        String searchPath = id.toString() + "%";
-        categoryRepository.softDeleteCategory(searchPath, Instant.now());
+    public void deleteCategory(UUID userId, UUID categoryId) {
+        String searchPath = categoryId.toString() + "%";
+        categoryRepository.softDeleteCategory(searchPath, Instant.now(), userId);
+    }
+
+    @Override
+    public CategoryDetailResponse getCategoryDetail(UUID userId, UUID id) {
+        Category category = findByIdAndUserId(id, userId);
+        List<Category> children = categoryRepository.findByParentId(category.getId());
+        List<CategoryDetailResponse> res = children.stream().map(CategoryDetailResponse::from).toList();
+        return CategoryDetailResponse.from(category, res);
     }
 
     private Category getCategoryById(UUID categoryId) {
@@ -104,20 +107,20 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.Category.CATEGORY_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));
     }
 
-    private Category findByIdAndUserEmail(UUID id, String email) {
+    private Category findByIdAndUserId(UUID id, UUID userId) {
         if (id == null) return null;
-        return categoryRepository.findByIdAndUserEmail(id, email)
+        return categoryRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.Category.CATEGORY_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));
     }
 
-    private void checkCategoryExistedForUpdate(String name, String email, UUID categoryId) {
-        if (categoryRepository.existsByNameAndUserEmailAndIdNot(name, email, categoryId)) {
+    private void checkCategoryExistedForUpdate(String name, UUID userId, UUID categoryId) {
+        if (categoryRepository.existsByNameAndUserIdAndIdNot(name, userId, categoryId)) {
             throw new AppException(HttpStatus.CONFLICT, ErrorMessage.Category.CATEGORY_EXISTED, ErrorMessage.CONFLICT_CODE);
         }
     }
 
-    private void checkCategoryExisted(String name, String email) {
-        if (categoryRepository.existsByNameAndUserEmail(name, email)) {
+    private void checkCategoryExisted(String name, UUID userId) {
+        if (categoryRepository.existsByNameAndUserId(name, userId)) {
             throw new AppException(HttpStatus.CONFLICT, ErrorMessage.Category.CATEGORY_EXISTED, ErrorMessage.CONFLICT_CODE);
         }
     }

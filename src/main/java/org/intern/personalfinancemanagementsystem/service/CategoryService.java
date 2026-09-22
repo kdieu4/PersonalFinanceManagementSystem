@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CategoryService {
-    PageResponse<List<CategoryDetailResponse>> getAllCategoriesByUser(String email, int pageNo, int pageSize);
+    PageResponse<List<CategoryDetailResponse>> getAllCategoriesByUser(UUID userId, int pageNo, int pageSize);
 
-    UUID addCategory(String email, CategoryRequest request);
+    UUID addCategory(UUID userId, CategoryRequest request);
 
-    void updateCategory(String email, UUID categoryId, CategoryRequest request);
+    void updateCategory(UUID userId, UUID categoryId, CategoryRequest request);
 
-    void deleteCategory(UUID id);
+    void deleteCategory(UUID userId, UUID id);
+
+    CategoryDetailResponse getCategoryDetail(UUID userId, UUID id);
 }

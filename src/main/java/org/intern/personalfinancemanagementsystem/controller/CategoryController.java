@@ -34,45 +34,55 @@ public class CategoryController {
     CategoryService categoryService;
 
     @Operation(summary = "Lay danh sach danh muc cua nguoi dung hien tai")
-    @GetMapping(UrlConstant.Category.GET_ALL_CATEGORIES)
+    @GetMapping(UrlConstant.Category.PREFIX)
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<PageResponse<List<CategoryDetailResponse>>>> getAllCategoriesByUser(
             @AuthenticationPrincipal CustomUserDetails principal,
             @RequestParam(defaultValue = "0", required = false) int pageNo,
             @Min(10) @RequestParam(defaultValue = "20", required = false) int pageSize) {
-        PageResponse<List<CategoryDetailResponse>> response = categoryService.getAllCategoriesByUser(principal.getUsername(), pageNo, pageSize);
+        PageResponse<List<CategoryDetailResponse>> response = categoryService.getAllCategoriesByUser(principal.getId(), pageNo, pageSize);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Category.GET_ALL_CATEGORIES_SUCCESSFULLY, response));
     }
 
+    @Operation(summary = "Lay thong tin mot danh muc cua nguoi dung hien tai")
+    @GetMapping(UrlConstant.Category.BY_ID)
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<ApiResponse<CategoryDetailResponse>> getAllCategoriesByUser(
+            @AuthenticationPrincipal CustomUserDetails principal,
+            @PathVariable UUID categoryId) {
+        CategoryDetailResponse response = categoryService.getCategoryDetail(principal.getId(), categoryId);
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Category.GET_DETAIL_CATEGORY_SUCCESSFULLY, response));
+    }
+
     @Operation(summary = "Them danh muc cua nguoi dung hien tai")
-    @PostMapping(UrlConstant.Category.ADD_CATEGORY)
+    @PostMapping(UrlConstant.Category.PREFIX)
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<UUID>> addCategoryByUser(
             @AuthenticationPrincipal CustomUserDetails principal,
             @Valid CategoryRequest request) {
-        UUID response = categoryService.addCategory(principal.getUsername(), request);
+        UUID response = categoryService.addCategory(principal.getId(), request);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Category.ADD_CATEGORY_SUCCESSFULLY, response));
     }
 
     @Operation(summary = "Cap nhat danh muc cua nguoi dung hien tai")
-    @PutMapping(UrlConstant.Category.UPDATE_DELETE_CATEGORY)
+    @PutMapping(UrlConstant.Category.BY_ID)
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<UUID>> updateCategoryByUser(
             @AuthenticationPrincipal CustomUserDetails principal,
             @PathVariable UUID categoryId,
             @Valid CategoryRequest request) {
-        categoryService.updateCategory(principal.getUsername(), categoryId, request);
+        categoryService.updateCategory(principal.getId(), categoryId, request);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Category.UPDATE_CATEGORY_SUCCESSFULLY, null));
     }
 
     @Operation(summary = "Xoa danh muc cua nguoi dung hien tai")
-    @PatchMapping(UrlConstant.Category.UPDATE_DELETE_CATEGORY)
+    @PatchMapping(UrlConstant.Category.BY_ID)
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<Void>> deleteCategoryByUser(
             @AuthenticationPrincipal CustomUserDetails principal,
             @PathVariable UUID categoryId
     ) {
-        categoryService.deleteCategory(categoryId);
+        categoryService.deleteCategory(principal.getId(), categoryId);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Category.DELETE_CATEGORY_SUCCESSFULLY, null));
     }
 }

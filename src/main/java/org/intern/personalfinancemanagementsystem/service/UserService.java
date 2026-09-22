@@ -5,6 +5,8 @@ import org.intern.personalfinancemanagementsystem.domain.dto.request.UpdateProfi
 import org.intern.personalfinancemanagementsystem.domain.dto.response.UserProfileResponse;
 import org.intern.personalfinancemanagementsystem.domain.entity.User;
 
+import java.util.UUID;
+
 public interface UserService {
     UserProfileResponse getProfile(String email);
 
@@ -13,4 +15,7 @@ public interface UserService {
     void changePassword(String email, ChangePasswordRequest request);
 
     User findByEmail(String email);
+
+    User findById(UUID userId);
+    User getReferenceById(UUID userId);
 }
