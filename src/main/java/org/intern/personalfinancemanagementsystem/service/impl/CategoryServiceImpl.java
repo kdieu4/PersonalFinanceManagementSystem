@@ -58,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .type(request.type())
                 .build();
 
-        categoryRepository.save(category);
+        category = categoryRepository.save(category);
 
         String path = parent != null ? parent.getPath() + "/" + category.getId() : category.getId().toString();
 
