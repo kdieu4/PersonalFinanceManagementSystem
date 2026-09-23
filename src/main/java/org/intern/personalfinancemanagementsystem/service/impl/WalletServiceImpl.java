@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,16 +62,33 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     @Transactional
-    public void updateWallet(UUID userId, UUID walletID, WalletRequest request) {
-        if (walletRepository.existsByNameAndUserIdAndIdNot(request.name(), userId, walletID)) {
+    public void updateWallet(UUID userId, UUID walletId, WalletRequest request) {
+        if (walletRepository.existsByNameAndUserIdAndIdNot(request.name(), userId, walletId)) {
             throw new AppException(HttpStatus.CONFLICT, ErrorMessage.Wallet.WALLET_EXISTED, ErrorMessage.CONFLICT_CODE);
         }
-        Wallet wallet = walletRepository.findByIdAndUserId(walletID, userId)
-                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.Wallet.WALLET_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));
+        Wallet wallet = findWalletByIdAndUserId(walletId, userId);
 
         wallet.setName(request.name());
         wallet.setBalance(request.balance());
         wallet.setCurrency(request.currency());
         log.info("Wallet has updated successfully, wallet_id={}", wallet.getId());
+    }
+
+    @Override
+    @Transactional
+    public void deleteWallet(UUID userId, UUID walletID) {
+        walletRepository.softDeleteWallet(walletID, Instant.now(), userId);
+        log.info("Wallet has deleted successfully, wallet_id={}", walletID);
+    }
+
+    @Override
+    public WalletDetailResponse getWalletDetail(UUID userId, UUID walletId) {
+        Wallet wallet = findWalletByIdAndUserId(walletId, userId);
+        return WalletDetailResponse.from(wallet);
+    }
+
+    private Wallet findWalletByIdAndUserId(UUID walletId, UUID userId) {
+        return walletRepository.findByIdAndUserId(walletId, userId)
+                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.Wallet.WALLET_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));
     }
 }

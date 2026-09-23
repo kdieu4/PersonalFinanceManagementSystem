@@ -62,12 +62,34 @@ public class WalletController {
     @Operation(description = "Thay doi vi cua nguoi dung hien tai")
     @SecurityRequirement(name = "bearerAuth")
     @PutMapping(UrlConstant.Wallet.BY_ID)
-    public ResponseEntity<ApiResponse<UUID>> addWallet(
+    public ResponseEntity<ApiResponse<UUID>> updateWallet(
             @AuthenticationPrincipal CustomUserDetails principal,
             @PathVariable UUID walletId,
             @Valid @RequestBody WalletRequest request
     ) {
         walletService.updateWallet(principal.getId(), walletId, request);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Wallet.UPDATE_WALLET_SUCCESSFULLY, null));
+    }
+
+    @Operation(description = "Xoa vi cua nguoi dung hien tai")
+    @SecurityRequirement(name = "bearerAuth")
+    @PatchMapping(UrlConstant.Wallet.BY_ID)
+    public ResponseEntity<ApiResponse<Void>> deleteWallet(
+            @AuthenticationPrincipal CustomUserDetails principal,
+            @PathVariable UUID walletId
+    ) {
+        walletService.deleteWallet(principal.getId(), walletId);
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Wallet.DELETE_WALLET_SUCCESSFULLY, null));
+    }
+
+    @Operation(description = "Xem chi tiet cua nguoi dung hien tai")
+    @SecurityRequirement(name = "bearerAuth")
+    @GetMapping(UrlConstant.Wallet.BY_ID)
+    public ResponseEntity<ApiResponse<WalletDetailResponse>> getWalletDetail(
+            @AuthenticationPrincipal CustomUserDetails principal,
+            @PathVariable UUID walletId
+    ) {
+        WalletDetailResponse response = walletService.getWalletDetail(principal.getId(), walletId);
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Wallet.DELETE_WALLET_SUCCESSFULLY, response));
     }
 }

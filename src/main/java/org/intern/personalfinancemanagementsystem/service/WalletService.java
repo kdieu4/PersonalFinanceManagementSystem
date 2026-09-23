@@ -13,4 +13,8 @@ public interface WalletService {
     UUID addWallet(UUID userId, WalletRequest request);
 
     void updateWallet(UUID userId, UUID walletID, WalletRequest request);
+
+    void deleteWallet(UUID userId, UUID walletID);
+
+    WalletDetailResponse getWalletDetail(UUID userId, UUID walletId);
 }
