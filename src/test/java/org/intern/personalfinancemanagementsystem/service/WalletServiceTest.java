@@ -1,12 +1,9 @@
 package org.intern.personalfinancemanagementsystem.service;
 
 import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
-import org.intern.personalfinancemanagementsystem.domain.dto.request.CategoryRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.WalletRequest;
-import org.intern.personalfinancemanagementsystem.domain.dto.response.CategoryDetailResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.PageResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.WalletDetailResponse;
-import org.intern.personalfinancemanagementsystem.domain.entity.Category;
 import org.intern.personalfinancemanagementsystem.domain.entity.User;
 import org.intern.personalfinancemanagementsystem.domain.entity.Wallet;
 import org.intern.personalfinancemanagementsystem.exception.AppException;
