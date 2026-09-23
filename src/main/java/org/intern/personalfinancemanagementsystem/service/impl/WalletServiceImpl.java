@@ -55,7 +55,7 @@ public class WalletServiceImpl implements WalletService {
                 .balance(request.balance())
                 .currency(request.currency())
                 .build();
-        walletRepository.save(wallet);
+        wallet = walletRepository.save(wallet);
         log.info("Wallet has added successfully, wallet_id={}", wallet.getId());
         return wallet.getId();
     }

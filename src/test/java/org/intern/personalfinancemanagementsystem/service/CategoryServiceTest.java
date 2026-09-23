@@ -1,6 +1,5 @@
 package org.intern.personalfinancemanagementsystem.service;
 
-import org.checkerframework.checker.units.qual.C;
 import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.CategoryRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.CategoryDetailResponse;
