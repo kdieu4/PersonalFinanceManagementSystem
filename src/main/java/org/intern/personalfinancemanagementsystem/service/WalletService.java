@@ -11,4 +11,6 @@ public interface WalletService {
     PageResponse<List<WalletDetailResponse>> getAllWallets(UUID userId, int pageNo, int pageSize);
 
     UUID addWallet(UUID userId, WalletRequest request);
+
+    void updateWallet(UUID userId, UUID walletID, WalletRequest request);
 }

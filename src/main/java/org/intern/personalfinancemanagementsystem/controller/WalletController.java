@@ -23,10 +23,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -60,5 +57,17 @@ public class WalletController {
     ) {
         UUID response = walletService.addWallet(principal.getId(), request);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Wallet.ADD_WALLET_SUCCESSFULLY, response));
+    }
+
+    @Operation(description = "Thay doi vi cua nguoi dung hien tai")
+    @SecurityRequirement(name = "bearerAuth")
+    @PutMapping(UrlConstant.Wallet.BY_ID)
+    public ResponseEntity<ApiResponse<UUID>> addWallet(
+            @AuthenticationPrincipal CustomUserDetails principal,
+            @PathVariable UUID walletId,
+            @Valid @RequestBody WalletRequest request
+    ) {
+        walletService.updateWallet(principal.getId(), walletId, request);
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Wallet.UPDATE_WALLET_SUCCESSFULLY, null));
     }
 }

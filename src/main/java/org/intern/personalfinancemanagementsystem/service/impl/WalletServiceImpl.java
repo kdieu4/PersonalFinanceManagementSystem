@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +27,7 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Transactional(readOnly = true)
 public class WalletServiceImpl implements WalletService {
     WalletRepository walletRepository;
     UserService userService;
@@ -40,6 +42,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    @Transactional
     public UUID addWallet(UUID userId, WalletRequest request) {
         User user = userService.getReferenceById(userId);
         if (walletRepository.existsByNameAndUserId(request.name(), userId)) {
@@ -54,5 +57,20 @@ public class WalletServiceImpl implements WalletService {
         walletRepository.save(wallet);
         log.info("Wallet has added successfully, wallet_id={}", wallet.getId());
         return wallet.getId();
+    }
+
+    @Override
+    @Transactional
+    public void updateWallet(UUID userId, UUID walletID, WalletRequest request) {
+        if (walletRepository.existsByNameAndUserIdAndIdNot(request.name(), userId, walletID)) {
+            throw new AppException(HttpStatus.CONFLICT, ErrorMessage.Wallet.WALLET_EXISTED, ErrorMessage.CONFLICT_CODE);
+        }
+        Wallet wallet = walletRepository.findByIdAndUserId(walletID, userId)
+                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.Wallet.WALLET_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));
+
+        wallet.setName(request.name());
+        wallet.setBalance(request.balance());
+        wallet.setCurrency(request.currency());
+        log.info("Wallet has updated successfully, wallet_id={}", wallet.getId());
     }
 }
