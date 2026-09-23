@@ -322,9 +322,11 @@ erDiagram
         uuid id PK
         uuid wallet_id FK
         uuid category_id FK
+        
         decimal amount
         timestamp created_at
         timestamp updated_at
+        timestamp archived_at
     }
 ```
 

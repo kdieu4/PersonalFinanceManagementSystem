@@ -3,6 +3,7 @@ package org.intern.personalfinancemanagementsystem.service;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.CategoryRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.CategoryDetailResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.PageResponse;
+import org.intern.personalfinancemanagementsystem.domain.entity.Category;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,4 +18,6 @@ public interface CategoryService {
     void deleteCategory(UUID userId, UUID id);
 
     CategoryDetailResponse getCategoryDetail(UUID userId, UUID id);
+
+    Category getReferenceById(UUID categoryId);
 }

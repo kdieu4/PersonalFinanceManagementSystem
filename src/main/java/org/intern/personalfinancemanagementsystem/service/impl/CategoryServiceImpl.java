@@ -102,6 +102,11 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryDetailResponse.from(category, res);
     }
 
+    @Override
+    public Category getReferenceById(UUID categoryId) {
+        return categoryRepository.getReferenceById(categoryId);
+    }
+
     private Category getCategoryById(UUID categoryId) {
         return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.Category.CATEGORY_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));

@@ -90,6 +90,6 @@ public class WalletController {
             @PathVariable UUID walletId
     ) {
         WalletDetailResponse response = walletService.getWalletDetail(principal.getId(), walletId);
-        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Wallet.DELETE_WALLET_SUCCESSFULLY, response));
+        return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Wallet.GET_DETAIL_WALLET_SUCCESSFULLY, response));
     }
 }

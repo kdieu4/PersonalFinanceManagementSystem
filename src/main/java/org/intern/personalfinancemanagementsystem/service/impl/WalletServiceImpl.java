@@ -8,6 +8,7 @@ import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.WalletRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.PageResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.WalletDetailResponse;
+import org.intern.personalfinancemanagementsystem.domain.entity.TransactionType;
 import org.intern.personalfinancemanagementsystem.domain.entity.User;
 import org.intern.personalfinancemanagementsystem.domain.entity.Wallet;
 import org.intern.personalfinancemanagementsystem.exception.AppException;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -85,6 +87,28 @@ public class WalletServiceImpl implements WalletService {
     public WalletDetailResponse getWalletDetail(UUID userId, UUID walletId) {
         Wallet wallet = findWalletByIdAndUserId(walletId, userId);
         return WalletDetailResponse.from(wallet);
+    }
+
+    @Override
+    public Wallet getReferenceById(UUID walletId) {
+        return walletRepository.getReferenceById(walletId);
+    }
+
+    @Override
+    public void updateBalance(UUID walletId, BigDecimal amount, TransactionType type) {
+        Wallet wallet = walletRepository.findById(walletId)
+                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.Wallet.WALLET_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));
+        BigDecimal currentBalance = wallet.getBalance();
+        BigDecimal newBalance;
+        if (type.equals(TransactionType.EXPENSE)) {
+            if (amount.compareTo(currentBalance) > 0) {
+                throw new AppException(HttpStatus.BAD_REQUEST, ErrorMessage.Transaction.AMOUNT_INVALID, ErrorMessage.BAD_REQUEST_CODE);
+            }
+            newBalance = currentBalance.subtract(amount);
+        } else {
+            newBalance = currentBalance.add(amount);
+        }
+        wallet.setBalance(newBalance);
     }
 
     private Wallet findWalletByIdAndUserId(UUID walletId, UUID userId) {

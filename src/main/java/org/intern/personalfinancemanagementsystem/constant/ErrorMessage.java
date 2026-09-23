@@ -53,6 +53,12 @@ public final class ErrorMessage {
     public static class Wallet {
         public static final String WALLET_NOT_EXISTED = "Wallet does not existed";
         public static final String WALLET_EXISTED = "Wallet is already existed";
-        public static final String MIN_BALANCE_VALUE = "The wallet balance must be greater or equals zero";
+        public static final String MIN_BALANCE_VALUE = "The wallet balance must be greater than or equals zero";
+    }
+
+    public static class Transaction {
+        public static final String MIN_VALUE = "The transaction amount must be greater than zero";
+        public static final String NULL_VALUE = "The field must not be null";
+        public static final String AMOUNT_INVALID = "Transaction amount must be less than wallet balance";
     }
 }

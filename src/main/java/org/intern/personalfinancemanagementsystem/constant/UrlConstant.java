@@ -30,4 +30,10 @@ public final class UrlConstant {
         public static final String PREFIX = "/wallets";
         public static final String BY_ID = PREFIX + "/{walletId}";
     }
+
+    public static class Transaction {
+        public static final String PREFIX = "/transactions";
+        public static final String EXPORT_CSV = PREFIX + "/export";
+        public static final String BY_ID = PREFIX + "/{transactionId}";
+    }
 }
