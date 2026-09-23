@@ -60,5 +60,6 @@ public final class ErrorMessage {
         public static final String MIN_VALUE = "The transaction amount must be greater than zero";
         public static final String NULL_VALUE = "The field must not be null";
         public static final String AMOUNT_INVALID = "Transaction amount must be less than wallet balance";
+        public static final String TRANSACTION_NOT_EXISTED = "Transaction does not existed";
     }
 }

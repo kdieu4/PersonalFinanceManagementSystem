@@ -36,10 +36,10 @@ public final class SuccessMessage {
     }
 
     public static final class Transaction {
-        public static final String GET_ALL_WALLETS_SUCCESSFULLY = "Get all wallets successfully";
+        public static final String GET_ALL_TRANSACTIONS_SUCCESSFULLY = "Get all transactions successfully";
         public static final String ADD_TRANSACTION_SUCCESSFULLY = "Add transaction successfully";
-        public static final String UPDATE_WALLET_SUCCESSFULLY = "Update wallet successfully";
-        public static final String DELETE_WALLET_SUCCESSFULLY = "Delete wallet successfully";
-        public static final String GET_DETAIL_WALLET_SUCCESSFULLY = "Get detail wallet successfully";
+        public static final String UPDATE_TRANSACTION_SUCCESSFULLY = "Update transaction successfully";
+        public static final String DELETE_TRANSACTION_SUCCESSFULLY = "Delete transaction successfully";
+        public static final String GET_DETAIL_TRANSACTION_SUCCESSFULLY = "Get detail transaction successfully";
     }
 }

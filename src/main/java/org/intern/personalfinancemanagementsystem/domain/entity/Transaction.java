@@ -8,6 +8,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -24,6 +25,10 @@ public class Transaction {
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     @Column(nullable = false)
     UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wallet_id", nullable = false)
@@ -43,6 +48,12 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     TransactionType type = TransactionType.EXPENSE;
+
+    String description;
+
+    @Column(nullable = false, name = "transaction_date")
+    @Builder.Default
+    LocalDate transactionDate = LocalDate.now();
 
     @Column(name = "archived_at")
     Instant archivedAt;
