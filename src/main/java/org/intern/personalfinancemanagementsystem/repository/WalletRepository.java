@@ -9,4 +9,6 @@ import java.util.UUID;
 
 public interface WalletRepository extends JpaRepository<Wallet, UUID> {
     Page<Wallet> findWalletByUserId(UUID userId, Pageable pageable);
+
+    boolean existsByNameAndUserId(String name, UUID userId);
 }

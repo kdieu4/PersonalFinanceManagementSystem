@@ -49,4 +49,9 @@ public final class ErrorMessage {
         public static final String CATEGORY_EXISTED = "Category is already existed";
         public static final String ERR_CYCLIC_CATEGORY = "Category cannot be its own parent";
     }
+
+    public static class Wallet {
+        public static final String WALLET_NOT_EXISTED = "Wallet does not existed";
+        public static final String WALLET_EXISTED = "Wallet is already existed";
+    }
 }
