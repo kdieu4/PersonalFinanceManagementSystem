@@ -59,4 +59,8 @@ public final class SuccessMessage {
         public static final String DELETE_GOAL_SUCCESSFULLY = "Delete budget successfully";
         public static final String GET_DETAIL_GOAL_SUCCESSFULLY = "Get detail budget successfully";
     }
+
+    public static final class Report {
+        public static final String GET_REPORT_SUCCESS = "Get reconciliation report successfully";
+    }
 }

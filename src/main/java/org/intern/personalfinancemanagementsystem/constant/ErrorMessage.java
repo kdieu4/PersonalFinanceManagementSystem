@@ -73,4 +73,8 @@ public final class ErrorMessage {
         public static final String GOAL_NOT_EXISTED = "Goal does not existed";
         public static final String GOAL_EXISTED = "Goal existed";
     }
+
+    public static class Report {
+        public static final String NOT_VALID_DATE = "End date must not be before start date";
+    }
 }

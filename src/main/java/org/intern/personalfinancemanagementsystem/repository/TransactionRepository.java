@@ -35,4 +35,22 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
             @Param("type") TransactionType type,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
+
+
+    @Query("""
+                    SELECT COALESCE(SUM(t.amount), 0)
+                    FROM Transaction t
+                    WHERE t.wallet.id = :walletId
+                    AND t.type = :type
+                    AND t.transactionDate >= :startDate
+                    AND t.transactionDate >= :endDate
+            """)
+    BigDecimal sumAmountByWalletAndType(
+            @Param("walletId") UUID walletId,
+            @Param("type") TransactionType type,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
+
+    long countByWalletIdAndTransactionDateBetween(UUID walletId, LocalDate startDate, LocalDate endDate);
 }

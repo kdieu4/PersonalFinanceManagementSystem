@@ -1,6 +1,8 @@
 package org.intern.personalfinancemanagementsystem.constant;
 
 public final class UrlConstant {
+    public static final String REPORTS = "/reports/reconciliation";
+
     public static class Auth {
         public static final String PREFIX = "/auth";
 
