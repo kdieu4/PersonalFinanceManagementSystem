@@ -11,6 +11,7 @@ public final class ErrorMessage {
 
     public static final String INVALID_FIELD = "The field is not valid.";
     public static final String NOT_BLANK_FIELD = "The field cannot be blank.";
+    public static final String NOT_NULL_FIELD = "The field cannot be null.";
     public static final String INVALID_FORMAT_EMAIL = "Please enter a valid email address.";
     public static final String INVALID_FORMAT_PASSWORD = "Password must be 6-120 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.";
     public static final String INVALID_PHONE_NUMBER = "Invalid phone number format.";
@@ -61,5 +62,15 @@ public final class ErrorMessage {
         public static final String NULL_VALUE = "The field must not be null";
         public static final String AMOUNT_INVALID = "Transaction amount must be less than wallet balance";
         public static final String TRANSACTION_NOT_EXISTED = "Transaction does not existed";
+    }
+
+    public static class Budget {
+        public static final String BUDGET_NOT_EXISTED = "Budget does not existed";
+        public static final String BUDGET_EXISTED = "Budget existed";
+    }
+
+    public static class Goal {
+        public static final String GOAL_NOT_EXISTED = "Goal does not existed";
+        public static final String GOAL_EXISTED = "Goal existed";
     }
 }

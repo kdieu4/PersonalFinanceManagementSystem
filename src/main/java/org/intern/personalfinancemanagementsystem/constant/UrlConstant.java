@@ -36,4 +36,15 @@ public final class UrlConstant {
         public static final String EXPORT = PREFIX + "/export";
         public static final String BY_ID = PREFIX + "/{transactionId}";
     }
+
+    public static class Budget {
+        public static final String PREFIX = "/budgets";
+        public static final String BY_ID = PREFIX + "/{budgetId}";
+    }
+
+    public static class Goal {
+        public static final String PREFIX = "/goals";
+        public static final String BY_ID = PREFIX + "/{goalId}";
+        public static final String ADD_CONTRIBUTION = PREFIX + "/{goalId}/contributions";
+    }
 }

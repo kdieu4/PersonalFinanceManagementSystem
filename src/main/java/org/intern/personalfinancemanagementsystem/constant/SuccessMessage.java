@@ -43,4 +43,20 @@ public final class SuccessMessage {
         public static final String GET_DETAIL_TRANSACTION_SUCCESSFULLY = "Get detail transaction successfully";
         public static final String EXPORT_TRANSACTION_SUCCESSFULLY = "Export transaction successfully";
     }
+
+    public static final class Budget {
+        public static final String GET_ALL_BUDGETS_SUCCESSFULLY = "Get all budgets successfully";
+        public static final String ADD_BUDGET_SUCCESSFULLY = "Add budget successfully";
+        public static final String UPDATE_BUDGET_SUCCESSFULLY = "Update budget successfully";
+        public static final String DELETE_BUDGET_SUCCESSFULLY = "Delete budget successfully";
+        public static final String GET_DETAIL_BUDGET_SUCCESSFULLY = "Get detail budget successfully";
+    }
+
+    public static final class Goal {
+        public static final String GET_ALL_GOALS_SUCCESSFULLY = "Get all budgets successfully";
+        public static final String ADD_GOAL_SUCCESSFULLY = "Add budget successfully";
+        public static final String UPDATE_GOAL_SUCCESSFULLY = "Update budget successfully";
+        public static final String DELETE_GOAL_SUCCESSFULLY = "Delete budget successfully";
+        public static final String GET_DETAIL_GOAL_SUCCESSFULLY = "Get detail budget successfully";
+    }
 }

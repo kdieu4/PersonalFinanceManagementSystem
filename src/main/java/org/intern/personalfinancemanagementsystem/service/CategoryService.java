@@ -20,4 +20,6 @@ public interface CategoryService {
     CategoryDetailResponse getCategoryDetail(UUID userId, UUID id);
 
     Category getReferenceById(UUID categoryId);
+
+    public Category findByIdAndUserId(UUID id, UUID userId);
 }

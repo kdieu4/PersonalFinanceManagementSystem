@@ -112,7 +112,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.Category.CATEGORY_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));
     }
 
-    private Category findByIdAndUserId(UUID id, UUID userId) {
+    public Category findByIdAndUserId(UUID id, UUID userId) {
         if (id == null) return null;
         return categoryRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.Category.CATEGORY_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));
