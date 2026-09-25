@@ -7,7 +7,6 @@ import org.intern.personalfinancemanagementsystem.domain.entity.User;
 import org.intern.personalfinancemanagementsystem.exception.AppException;
 import org.intern.personalfinancemanagementsystem.repository.InvalidatedTokenRepository;
 import org.intern.personalfinancemanagementsystem.security.CustomUserDetails;
-import org.intern.personalfinancemanagementsystem.security.CustomUserDetailsService;
 import org.intern.personalfinancemanagementsystem.service.impl.JwtServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.mockito.Mockito.when;
+import java.time.Instant;
 
-import static reactor.core.publisher.Mono.when;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class JwtServiceTest {
@@ -157,5 +156,106 @@ public class JwtServiceTest {
         Assertions.assertThrows(AppException.class, () -> {
             jwtService.extractJti(testToken);
         });
+    }
+
+    @Test
+    void isAccessToken_WhenAccessToken_ShouldReturnTrue() {
+        String testEmail = "test@gmail.com";
+
+        User mockUser = new User();
+        mockUser.setEmail(testEmail);
+        mockUser.setRole(Role.USER);
+
+        String testAccessToken = jwtService.generateToken(mockUser);
+
+        boolean result = jwtService.isAccessToken(testAccessToken);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void isTokenValid_WhenTokenIsInvalidated_ShouldReturnFalse() {
+        String testEmail = "test@gmail.com";
+
+        User mockUser = new User();
+        mockUser.setEmail(testEmail);
+        mockUser.setRole(Role.USER);
+
+        UserDetails userDetails = new CustomUserDetails(mockUser);
+
+        String testToken = jwtService.generateToken(mockUser);
+
+        when(invalidatedTokenRepository.existsById(ArgumentMatchers.anyString())).thenReturn(true);
+
+        boolean result = jwtService.isTokenValid(testToken, userDetails);
+
+        Assertions.assertFalse(result);
+
+        Mockito.verify(invalidatedTokenRepository).existsById(ArgumentMatchers.anyString());
+    }
+
+    @Test
+    void isTokenValid_WhenEmailDoesNotMatch_ShouldReturnFalse() {
+        User tokenUser = new User();
+        tokenUser.setEmail("token@gmail.com");
+        tokenUser.setRole(Role.USER);
+
+        String testToken = jwtService.generateToken(tokenUser);
+
+        User anotherUser = new User();
+        anotherUser.setEmail("another@gmail.com");
+        anotherUser.setRole(Role.USER);
+
+        UserDetails anotherUserDetails = new CustomUserDetails(anotherUser);
+
+        when(invalidatedTokenRepository.existsById(ArgumentMatchers.anyString())).thenReturn(false);
+
+        boolean result = jwtService.isTokenValid(testToken, anotherUserDetails);
+
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    void isTokenValid_WhenPasswordChangedAfterTokenIssued_ShouldReturnFalse() {
+        String testEmail = "test@gmail.com";
+        User mockUser = new User();
+        mockUser.setEmail(testEmail);
+        mockUser.setRole(Role.USER);
+
+        String testToken = jwtService.generateToken(mockUser);
+        CustomUserDetails customUserDetails = Mockito.mock(CustomUserDetails.class);
+
+        when(customUserDetails.getUsername()).thenReturn(testEmail);
+        Instant passwordChangedAt = Instant.now().plusSeconds(60);
+        when(customUserDetails.getPasswordChangedAt()).thenReturn(passwordChangedAt);
+        when(invalidatedTokenRepository.existsById(ArgumentMatchers.anyString())).thenReturn(false);
+
+        boolean result = jwtService.isTokenValid(testToken, customUserDetails);
+
+        Assertions.assertFalse(result);
+
+        Mockito.verify(customUserDetails).getPasswordChangedAt();
+    }
+
+    @Test
+    void isTokenValid_WhenTokenIssuedAfterPasswordChanged_ShouldReturnTrue() {
+        String testEmail = "test@gmail.com";
+
+        User mockUser = new User();
+        mockUser.setEmail(testEmail);
+        mockUser.setRole(Role.USER);
+
+        CustomUserDetails customUserDetails = Mockito.mock(CustomUserDetails.class);
+        when(customUserDetails.getUsername()).thenReturn(testEmail);
+
+        Instant passwordChangedAt = Instant.now().minusSeconds(60);
+        when(customUserDetails.getPasswordChangedAt()).thenReturn(passwordChangedAt);
+
+        String testToken = jwtService.generateToken(mockUser);
+        when(invalidatedTokenRepository.existsById(ArgumentMatchers.anyString())).thenReturn(false);
+
+        boolean result = jwtService.isTokenValid(testToken, customUserDetails);
+
+        Assertions.assertTrue(result);
     }
 }

@@ -4,6 +4,7 @@ import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
 import org.intern.personalfinancemanagementsystem.domain.dto.request.WalletRequest;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.PageResponse;
 import org.intern.personalfinancemanagementsystem.domain.dto.response.WalletDetailResponse;
+import org.intern.personalfinancemanagementsystem.domain.entity.TransactionType;
 import org.intern.personalfinancemanagementsystem.domain.entity.User;
 import org.intern.personalfinancemanagementsystem.domain.entity.Wallet;
 import org.intern.personalfinancemanagementsystem.exception.AppException;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -190,5 +192,53 @@ public class WalletServiceTest {
         when(walletRepository.findByIdAndUserId(testCategoryId, testUserId)).thenReturn(Optional.of(mockCategory));
         WalletDetailResponse response = walletService.getWalletDetail(testUserId, testCategoryId);
         Assertions.assertNotNull(response);
+    }
+
+    @Test
+    void getReferenceById_whenWalletExists_shouldReturnWaller() {
+        UUID walletId = UUID.randomUUID();
+        Wallet mockWallet = new Wallet();
+        mockWallet.setId(walletId);
+
+        when(walletRepository.getReferenceById(walletId)).thenReturn(mockWallet);
+
+        Wallet response = walletService.getReferenceById(walletId);
+
+        Assertions.assertNotNull(response);
+        Mockito.verify(walletRepository, Mockito.times(1)).getReferenceById(walletId);
+    }
+
+    @Test
+    void updateBalance_whenIncome_ShouldIncreaseBalance() {
+        UUID walletId = UUID.randomUUID();
+
+        Wallet mockWallet = new Wallet();
+        mockWallet.setId(walletId);
+        mockWallet.setBalance(new BigDecimal("100000"));
+        BigDecimal amount = new BigDecimal("50000");
+
+        when(walletRepository.findById(walletId)).thenReturn(Optional.of(mockWallet));
+
+        walletService.updateBalance(walletId, amount, TransactionType.INCOME);
+
+        Assertions.assertEquals(new BigDecimal("150000"), mockWallet.getBalance());
+        Mockito.verify(walletRepository, times(1)).findById(walletId);
+    }
+
+    @Test
+    void updateBalance_whenExpense_ShouldDecreaseBalance() {
+        UUID walletId = UUID.randomUUID();
+
+        Wallet mockWallet = new Wallet();
+        mockWallet.setId(walletId);
+        mockWallet.setBalance(new BigDecimal("100000"));
+        BigDecimal amount = new BigDecimal("50000");
+
+        when(walletRepository.findById(walletId)).thenReturn(Optional.of(mockWallet));
+
+        walletService.updateBalance(walletId, amount, TransactionType.EXPENSE);
+
+        Assertions.assertEquals(new BigDecimal("50000"), mockWallet.getBalance());
+        Mockito.verify(walletRepository, times(1)).findById(walletId);
     }
 }
