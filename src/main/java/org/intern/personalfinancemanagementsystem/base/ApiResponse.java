@@ -1,12 +1,9 @@
 package org.intern.personalfinancemanagementsystem.base;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 
 import java.time.Instant;
-import java.util.Objects;
 
 public record ApiResponse<T>(
         Boolean success,

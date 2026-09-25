@@ -2,7 +2,6 @@ package org.intern.personalfinancemanagementsystem.service;
 
 import com.nimbusds.jose.util.StandardCharset;
 import lombok.extern.slf4j.Slf4j;
-import org.intern.personalfinancemanagementsystem.constant.ErrorMessage;
 import org.springframework.beans.factory.annotation.Value;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
