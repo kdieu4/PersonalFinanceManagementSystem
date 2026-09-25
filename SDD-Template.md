@@ -322,7 +322,11 @@ erDiagram
         uuid id PK
         uuid wallet_id FK
         uuid category_id FK
-        
+        string purpose
+        string name
+        string type
+        string description
+        timestamp transactionDate
         decimal amount
         timestamp created_at
         timestamp updated_at

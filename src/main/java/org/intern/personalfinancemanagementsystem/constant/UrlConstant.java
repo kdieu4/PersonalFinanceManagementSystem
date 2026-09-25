@@ -33,7 +33,7 @@ public final class UrlConstant {
 
     public static class Transaction {
         public static final String PREFIX = "/transactions";
-        public static final String EXPORT_CSV = PREFIX + "/export";
+        public static final String EXPORT = PREFIX + "/export";
         public static final String BY_ID = PREFIX + "/{transactionId}";
     }
 }

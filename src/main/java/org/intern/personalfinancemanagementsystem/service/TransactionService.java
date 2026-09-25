@@ -14,4 +14,6 @@ public interface TransactionService {
     PageResponse<List<TransactionDetailResponse>> getAllTransaction(UUID userId, int pageNo, int pageSize);
 
     TransactionDetailResponse getTransactionDetail(UUID userId, UUID transactionId);
+
+    byte[] exportTransaction(UUID userId);
 }

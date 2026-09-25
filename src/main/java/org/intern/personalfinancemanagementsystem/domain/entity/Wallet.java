@@ -8,6 +8,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -41,4 +42,7 @@ public class Wallet extends BaseEntity {
 
     @Column(name = "archived_at")
     Instant archivedAt;
+
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
+    List<Transaction> transactions;
 }

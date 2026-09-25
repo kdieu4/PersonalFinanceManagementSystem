@@ -45,4 +45,7 @@ public class Category extends BaseEntity {
 
     @Column(name = "archived_at")
     Instant archivedAt;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    List<Transaction> transactions;
 }

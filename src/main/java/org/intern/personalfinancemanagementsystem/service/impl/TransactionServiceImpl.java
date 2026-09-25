@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 
@@ -75,5 +76,36 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = transactionRepository.findByIdAndUserId(transactionId, userId)
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, ErrorMessage.Transaction.TRANSACTION_NOT_EXISTED, ErrorMessage.NOT_FOUND_CODE));
         return TransactionDetailResponse.from(transaction);
+    }
+
+    @Override
+    public byte[] exportTransaction(UUID userId) {
+        User user = userService.getReferenceById(userId);
+        List<Transaction> transactions = transactionRepository.findTransactionByUserId(userId);
+
+        StringBuilder csv = new StringBuilder();
+
+        csv.append("ID,Ngày giao dịch,Mục đích,Số tiền,Loại\n");
+
+        for (Transaction transaction : transactions) {
+            csv.append(transaction.getId()).append(",");
+            csv.append(escapeCsv(transaction.getTransactionDate() != null ? transaction.getTransactionDate().toString() : "")).append(",");
+            csv.append(escapeCsv(transaction.getPurpose())).append(",");
+            csv.append(escapeCsv(transaction.getAmount().toString())).append(",");
+            csv.append(escapeCsv(transaction.getType().toString())).append("\n");
+        }
+        return csv.toString().getBytes(StandardCharsets.UTF_8);
+    }
+
+    private String escapeCsv(String value) {
+        if (value == null) {
+            return "";
+        }
+        if (value.contains(",")
+                || value.contains("\"")
+                || value.contains("\n")) {
+            return "\"" + value.replace("\"", "\"\"") + "\"";
+        }
+        return value;
     }
 }

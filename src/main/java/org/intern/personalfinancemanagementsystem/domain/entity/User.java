@@ -58,4 +58,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Wallet> wallets;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<Transaction> transactions;
 }

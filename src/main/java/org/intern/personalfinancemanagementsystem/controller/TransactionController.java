@@ -20,6 +20,8 @@ import org.intern.personalfinancemanagementsystem.domain.dto.response.PageRespon
 import org.intern.personalfinancemanagementsystem.domain.dto.response.TransactionDetailResponse;
 import org.intern.personalfinancemanagementsystem.security.CustomUserDetails;
 import org.intern.personalfinancemanagementsystem.service.TransactionService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -48,7 +50,7 @@ public class TransactionController {
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Transaction.ADD_TRANSACTION_SUCCESSFULLY, response));
     }
 
-    @Operation(summary = "Lay danh sach giao dic cua nguoi dung hien tai")
+    @Operation(summary = "Lay danh sach giao dich cua nguoi dung hien tai")
     @GetMapping(UrlConstant.Transaction.PREFIX)
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<PageResponse<List<TransactionDetailResponse>>>> getAllCategoriesByUser(
@@ -67,5 +69,16 @@ public class TransactionController {
             @PathVariable UUID transactionId) {
         TransactionDetailResponse response = transactionService.getTransactionDetail(principal.getId(), transactionId);
         return ResponseEntity.ok(ApiResponse.success(SuccessMessage.Transaction.GET_DETAIL_TRANSACTION_SUCCESSFULLY, response));
+    }
+
+    @Operation(summary = "Xuat file csv nguoi dung hien tai")
+    @GetMapping(UrlConstant.Transaction.EXPORT)
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<byte[]> exportTransaction(@AuthenticationPrincipal CustomUserDetails principal) {
+        byte[] response = transactionService.exportTransaction(principal.getId());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename = transactions.csv")
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .body(response);
     }
 }

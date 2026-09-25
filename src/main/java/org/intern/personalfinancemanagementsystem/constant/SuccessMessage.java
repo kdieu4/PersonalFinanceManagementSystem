@@ -41,5 +41,6 @@ public final class SuccessMessage {
         public static final String UPDATE_TRANSACTION_SUCCESSFULLY = "Update transaction successfully";
         public static final String DELETE_TRANSACTION_SUCCESSFULLY = "Delete transaction successfully";
         public static final String GET_DETAIL_TRANSACTION_SUCCESSFULLY = "Get detail transaction successfully";
+        public static final String EXPORT_TRANSACTION_SUCCESSFULLY = "Export transaction successfully";
     }
 }
