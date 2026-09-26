@@ -1,0 +1,1 @@
+ALTER TABLE categories ADD COLUMN path VARCHAR(255);

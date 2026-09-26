@@ -1,0 +1,66 @@
+package org.intern.personalfinancemanagementsystem.constant;
+
+public final class SuccessMessage {
+    public static final String SUCCESS_CODE = "SUCCESS";
+
+    public static final class Auth {
+        public static final String REGISTER_SUCCESS = "Register successfully.";
+        public static final String LOGIN_SUCCESS = "Login successfully";
+        public static final String LOGOUT_SUCCESS = "Logout successfully";
+        public static final String REFRESH_TOKEN_SUCCESS = "Refresh token successfully";
+        public static final String SEND_OTP_SUCCESS = "OTP sent successfully";
+        public static final String VERIFY_OTP_SUCCESS = "OTP verified successfully";
+        public static final String RESET_PASSWORD_SUCCESS = "Password reset successfully";
+    }
+
+    public static final class User {
+        public static final String GET_PROFILE_SUCCESS = "Profile retrieved successfully";
+        public static final String UPDATE_PROFILE_SUCCESS = "Update profile successfully";
+        public static final String CHANGE_PASSWORD_SUCCESS = "Password changed successfully";
+    }
+
+    public static final class Category {
+        public static final String GET_ALL_CATEGORIES_SUCCESSFULLY = "Get all categories successfully";
+        public static final String ADD_CATEGORY_SUCCESSFULLY = "Add category successfully";
+        public static final String UPDATE_CATEGORY_SUCCESSFULLY = "Update category successfully";
+        public static final String DELETE_CATEGORY_SUCCESSFULLY = "Delete category successfully";
+        public static final String GET_DETAIL_CATEGORY_SUCCESSFULLY = "Get detail category successfully";
+    }
+
+    public static final class Wallet {
+        public static final String GET_ALL_WALLETS_SUCCESSFULLY = "Get all wallets successfully";
+        public static final String ADD_WALLET_SUCCESSFULLY = "Add wallet successfully";
+        public static final String UPDATE_WALLET_SUCCESSFULLY = "Update wallet successfully";
+        public static final String DELETE_WALLET_SUCCESSFULLY = "Delete wallet successfully";
+        public static final String GET_DETAIL_WALLET_SUCCESSFULLY = "Get detail wallet successfully";
+    }
+
+    public static final class Transaction {
+        public static final String GET_ALL_TRANSACTIONS_SUCCESSFULLY = "Get all transactions successfully";
+        public static final String ADD_TRANSACTION_SUCCESSFULLY = "Add transaction successfully";
+        public static final String UPDATE_TRANSACTION_SUCCESSFULLY = "Update transaction successfully";
+        public static final String DELETE_TRANSACTION_SUCCESSFULLY = "Delete transaction successfully";
+        public static final String GET_DETAIL_TRANSACTION_SUCCESSFULLY = "Get detail transaction successfully";
+        public static final String EXPORT_TRANSACTION_SUCCESSFULLY = "Export transaction successfully";
+    }
+
+    public static final class Budget {
+        public static final String GET_ALL_BUDGETS_SUCCESSFULLY = "Get all budgets successfully";
+        public static final String ADD_BUDGET_SUCCESSFULLY = "Add budget successfully";
+        public static final String UPDATE_BUDGET_SUCCESSFULLY = "Update budget successfully";
+        public static final String DELETE_BUDGET_SUCCESSFULLY = "Delete budget successfully";
+        public static final String GET_DETAIL_BUDGET_SUCCESSFULLY = "Get detail budget successfully";
+    }
+
+    public static final class Goal {
+        public static final String GET_ALL_GOALS_SUCCESSFULLY = "Get all budgets successfully";
+        public static final String ADD_GOAL_SUCCESSFULLY = "Add budget successfully";
+        public static final String UPDATE_GOAL_SUCCESSFULLY = "Update budget successfully";
+        public static final String DELETE_GOAL_SUCCESSFULLY = "Delete budget successfully";
+        public static final String GET_DETAIL_GOAL_SUCCESSFULLY = "Get detail budget successfully";
+    }
+
+    public static final class Report {
+        public static final String GET_REPORT_SUCCESS = "Get reconciliation report successfully";
+    }
+}

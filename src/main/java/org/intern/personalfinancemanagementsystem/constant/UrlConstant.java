@@ -1,0 +1,52 @@
+package org.intern.personalfinancemanagementsystem.constant;
+
+public final class UrlConstant {
+    public static final String REPORTS = "/reports/reconciliation";
+
+    public static class Auth {
+        public static final String PREFIX = "/auth";
+
+        public static final String REGISTER = PREFIX + "/register";
+        public static final String LOGIN = PREFIX + "/login";
+        public static final String LOGOUT = PREFIX + "/logout";
+        public static final String REFRESH_TOKEN = PREFIX + "/refresh-token";
+        public static final String FORGOT_PASSWORD = PREFIX + "/forgot-password";
+        public static final String VERIFY_OTP = PREFIX + "/verify-otp";
+        public static final String RESET_PASSWORD = PREFIX + "/reset-password";
+    }
+
+    public static class User {
+        public static final String PREFIX = "/user";
+
+        public static final String GET_PROFILE = PREFIX + "/profile";
+        public static final String UPDATE_PROFILE = PREFIX + "/update-profile";
+        public static final String CHANGE_PASSWORD = PREFIX + "/change-password";
+    }
+
+    public static class Category {
+        public static final String PREFIX = "/categories";
+        public static final String BY_ID = PREFIX + "/{categoryId}";
+    }
+
+    public static class Wallet {
+        public static final String PREFIX = "/wallets";
+        public static final String BY_ID = PREFIX + "/{walletId}";
+    }
+
+    public static class Transaction {
+        public static final String PREFIX = "/transactions";
+        public static final String EXPORT = PREFIX + "/export";
+        public static final String BY_ID = PREFIX + "/{transactionId}";
+    }
+
+    public static class Budget {
+        public static final String PREFIX = "/budgets";
+        public static final String BY_ID = PREFIX + "/{budgetId}";
+    }
+
+    public static class Goal {
+        public static final String PREFIX = "/goals";
+        public static final String BY_ID = PREFIX + "/{goalId}";
+        public static final String ADD_CONTRIBUTION = PREFIX + "/{goalId}/contributions";
+    }
+}

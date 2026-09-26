@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Please confirm your email</title>
+</head>
+<body>
+<div style="background-color: #00a8ff; background-image: linear-gradient(to bottom right, #0097e6, #00d2d3); text-align: center; color: white; border-radius: 5px">
+    <h2 style="font-family: Georgia; padding: 5px">DIDI</h2>
+</div>
+<div>
+    <h3 style="margin-bottom: 5px">Mã xác minh tài khoản</h3>
+    <hr style="margin-top: 0; width: 100%; border: 1px solid #1a1a62;"/>
+    <p style="line-height: 32px"><i>Kính chào quý khách,</i></br>
+        Quý khách đã gửi yêu cầu cập nhật mật khẩu khi quên mật khẩu tại Hệ thống sổ thu chi (BE) <strong>DIDI</strong>.
+        Vui lòng sử dụng mã OTP dưới đây để hoàn tất quá trình xác email:</p>
+    <div style="text-align: center">
+        <div style="background-color: #00a8ff;
+        display: inline-block;
+        letter-spacing: 2px;
+        text-align: center;
+        color: white; border-radius: 5px;
+        width: 50%;
+        padding: 5px;
+        line-height: 32px;
+        font-weight: bold;
+        font-size: 20pt"
+             th:text="${OTP}">
+            123456
+        </div>
+    </div>
+    <p style="line-height: 32px">
+        Mã OTP này có hiệu lực trong vòng <strong>5 phút</strong>. Quý khách vui lòng không chia sẻ cho bất kỳ ai khác.
+    </p>
+    <hr style="margin-top: 0; width: 100%; border: 1px solid rgb(26 26 98 / 0.21);"/>
+    <p style="text-align: center; font-size: 10pt; color: rgb(26 26 98 / 0.5)">Đây là email tự động gửi từ hệ thống
+        DIDI. Vui lòng không trả lời trực tiếp email này.</p>
+</div>
+</body>
+</html>
