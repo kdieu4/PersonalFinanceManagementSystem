@@ -1,0 +1,1636 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /api/v1/wallets/{walletId}:
+    get:
+      tags:
+        - wallets
+      description: Xem chi tiet cua nguoi dung hien tai
+      operationId: getWalletDetail
+      parameters:
+        - name: walletId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseWalletDetailResponse"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - wallets
+      description: Thay doi vi cua nguoi dung hien tai
+      operationId: updateWallet
+      parameters:
+        - name: walletId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WalletRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseUUID"
+      security:
+        - bearerAuth: []
+    patch:
+      tags:
+        - wallets
+      description: Xoa vi cua nguoi dung hien tai
+      operationId: deleteWallet
+      parameters:
+        - name: walletId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseVoid"
+      security:
+        - bearerAuth: []
+  /api/v1/user/update-profile:
+    put:
+      tags:
+        - user
+      summary: Cập nhật hồ sơ cá nhân
+      operationId: updateProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProfileRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseUserProfileResponse"
+      security:
+        - bearerAuth: []
+  /api/v1/goals/{goalId}:
+    get:
+      tags:
+        - goals
+      summary: Xem chi tiet muc tieu
+      operationId: getGoalById
+      parameters:
+        - name: goalId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseGoalResponse"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - goals
+      summary: Sua muc tieu
+      operationId: updateGoalById
+      parameters:
+        - name: goalId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GoalRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseVoid"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - goals
+      summary: Xoa muc tieu
+      operationId: deleteGoalById
+      parameters:
+        - name: goalId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseVoid"
+      security:
+        - bearerAuth: []
+  /api/v1/categories/{categoryId}:
+    get:
+      tags:
+        - categories
+      summary: Lay thong tin mot danh muc cua nguoi dung hien tai
+      operationId: getAllCategoriesByUser
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseCategoryDetailResponse"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - categories
+      summary: Cap nhat danh muc cua nguoi dung hien tai
+      operationId: updateCategoryByUser
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: request
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/CategoryRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseUUID"
+      security:
+        - bearerAuth: []
+    patch:
+      tags:
+        - categories
+      summary: Xoa danh muc cua nguoi dung hien tai
+      operationId: deleteCategoryByUser
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseVoid"
+      security:
+        - bearerAuth: []
+  /api/v1/budgets/{budgetId}:
+    get:
+      tags:
+        - budgets
+      summary: Xem chi tiet ngan sach
+      operationId: getBudgetById
+      parameters:
+        - name: budgetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseBudgetResponse"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - budgets
+      summary: Sua ngan sach
+      operationId: updateBudgetById
+      parameters:
+        - name: budgetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BudgetRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseVoid"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - budgets
+      summary: Xoa ngan sach
+      operationId: deleteBudgetById
+      parameters:
+        - name: budgetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseVoid"
+      security:
+        - bearerAuth: []
+  /api/v1/wallets:
+    get:
+      tags:
+        - wallets
+      description: Lay danh sach vi cua nguoi dung hien tai
+      operationId: getAllWallet
+      parameters:
+        - name: pageNo
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 20
+            minimum: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponsePageResponseListWalletDetailResponse"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - wallets
+      description: Them vi cua nguoi dung hien tai
+      operationId: addWallet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WalletRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseUUID"
+      security:
+        - bearerAuth: []
+  /api/v1/user/change-password:
+    post:
+      tags:
+        - user
+      summary: Thay đổi mật khẩu
+      operationId: changePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangePasswordRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseVoid"
+      security:
+        - bearerAuth: []
+  /api/v1/transactions:
+    get:
+      tags:
+        - transactions
+      summary: Lay danh sach giao dich cua nguoi dung hien tai
+      operationId: getAllCategoriesByUser_1
+      parameters:
+        - name: pageNo
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 20
+            minimum: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponsePageResponseListTransactionDetailResponse"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - transactions
+      description: Them vi cua nguoi dung hien tai
+      operationId: addTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseUUID"
+      security:
+        - bearerAuth: []
+  /api/v1/goals:
+    get:
+      tags:
+        - goals
+      summary: Lay danh sach muc tieu
+      operationId: getAllGoal
+      parameters:
+        - name: pageNo
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+            minimum: 0
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            maximum: 100
+            minimum: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponsePageResponseListGoalResponse"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - goals
+      summary: Them muc tieu
+      operationId: addGoal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GoalRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseUUID"
+      security:
+        - bearerAuth: []
+  /api/v1/categories:
+    get:
+      tags:
+        - categories
+      summary: Lay danh sach danh muc cua nguoi dung hien tai
+      operationId: getAllCategoriesByUser_2
+      parameters:
+        - name: pageNo
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 20
+            minimum: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponsePageResponseListCategoryDetailResponse"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - categories
+      summary: Them danh muc cua nguoi dung hien tai
+      operationId: addCategoryByUser
+      parameters:
+        - name: request
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/CategoryRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseUUID"
+      security:
+        - bearerAuth: []
+  /api/v1/budgets:
+    get:
+      tags:
+        - budgets
+      summary: Lay danh sach ngan sach
+      operationId: getAllBudget
+      parameters:
+        - name: pageNo
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+            minimum: 0
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            maximum: 100
+            minimum: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponsePageResponseListBudgetResponse"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - budgets
+      summary: Them ngan sach
+      operationId: addBudget
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BudgetRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseUUID"
+      security:
+        - bearerAuth: []
+  /api/v1/auth/verify-otp:
+    post:
+      tags:
+        - Authentication
+      summary: Xác thực OTP
+      description: Xác thực OTP tu email
+      operationId: verifyOtp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyOtpRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseVerifyOtpResponse"
+  /api/v1/auth/reset-password:
+    post:
+      tags:
+        - Authentication
+      summary: Đặt lại mật khẩu
+      operationId: resetPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseVoid"
+  /api/v1/auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Đăng ký tài khoản
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseRegisterResponse"
+  /api/v1/auth/refresh-token:
+    post:
+      tags:
+        - Authentication
+      summary: Refresh Token
+      description: Lấy access token mới khi access token cũ đã hết hạn
+      operationId: refreshToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshTokenRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseRefreshTokenResponse"
+      security:
+        - bearerAuth: []
+  /api/v1/auth/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Đăng xuất
+      operationId: logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogoutRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseVoid"
+      security:
+        - bearerAuth: []
+  /api/v1/auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Đăng nhập
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseLoginResponse"
+  /api/v1/auth/forgot-password:
+    post:
+      tags:
+        - Authentication
+      summary: Quên mật khẩu
+      description: Gửi otp qua email hoặc SMS để xác nhận tài khoản
+      operationId: forgotPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForgotPasswordRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseVoid"
+  /api/v1/user/profile:
+    get:
+      tags:
+        - user
+      summary: Xem hồ sơ cá nhân
+      description: Trả về thông tin của chính người dùng đang đăng nhập.
+      operationId: getProfile
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseUserProfileResponse"
+      security:
+        - bearerAuth: []
+  /api/v1/transactions/{transactionId}:
+    get:
+      tags:
+        - transactions
+      summary: Lay thong tin mot giao dich cua nguoi dung hien tai
+      operationId: getAllCategoriesByUser_3
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseTransactionDetailResponse"
+      security:
+        - bearerAuth: []
+  /api/v1/transactions/export:
+    get:
+      tags:
+        - transactions
+      summary: Xuat file csv nguoi dung hien tai
+      operationId: exportTransaction
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
+      security:
+        - bearerAuth: []
+  /api/v1/reports/reconciliation:
+    get:
+      tags:
+        - reports
+      summary: Bao cao doi soat giao dich
+      operationId: getReconciliation
+      parameters:
+        - name: walletId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ApiResponseReconciliationResponse"
+      security:
+        - bearerAuth: []
+components:
+  schemas:
+    WalletRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        balance:
+          type: number
+          minimum: 0
+        currency:
+          type: string
+      required:
+        - currency
+        - name
+    ApiResponseUUID:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataUUID"
+        timestamp:
+          type: string
+          format: date-time
+    RestDataUUID:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: string
+          format: uuid
+        details:
+          type: object
+    UpdateProfileRequest:
+      type: object
+      properties:
+        fullName:
+          type: string
+          maxLength: 120
+          minLength: 0
+        phoneNumber:
+          type: string
+          pattern: "^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}.{0,15}$"
+        dateOfBirth:
+          type: string
+          format: date
+    ApiResponseUserProfileResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataUserProfileResponse"
+        timestamp:
+          type: string
+          format: date-time
+    RestDataUserProfileResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/UserProfileResponse"
+        details:
+          type: object
+    UserProfileResponse:
+      type: object
+      properties:
+        fullName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        avatar:
+          type: string
+    GoalRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        targetAmount:
+          type: number
+          minimum: 0.01
+        targetDate:
+          type: string
+          format: date
+      required:
+        - name
+        - targetAmount
+        - targetDate
+    ApiResponseVoid:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataVoid"
+        timestamp:
+          type: string
+          format: date-time
+    RestDataVoid:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+        details:
+          type: object
+    CategoryRequest:
+      type: object
+      properties:
+        parentId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+      required:
+        - name
+        - type
+    BudgetRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+      required:
+        - amount
+        - categoryId
+        - endDate
+        - name
+        - startDate
+    ChangePasswordRequest:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+        newPassword:
+          type: string
+          pattern: "^(?=.*[0-9])(?=.*[!@#$%^&*(){}_+=~`|:;'<>,./?])(?=.*[a-z])(?=.*[A-Z]).{6,120}$"
+        confirmPassword:
+          type: string
+      required:
+        - confirmPassword
+        - newPassword
+        - oldPassword
+    TransactionRequest:
+      type: object
+      properties:
+        purpose:
+          type: string
+        amount:
+          type: number
+        type:
+          type: string
+          enum:
+            - EXPENSE
+            - INCOME
+        description:
+          type: string
+        transactionDate:
+          type: string
+          format: date
+        walletId:
+          type: string
+          format: uuid
+        categoryId:
+          type: string
+          format: uuid
+      required:
+        - amount
+        - categoryId
+        - purpose
+        - transactionDate
+        - type
+        - walletId
+    VerifyOtpRequest:
+      type: object
+      properties:
+        identity:
+          type: string
+        otp:
+          type: string
+          pattern: "\\d{6}"
+      required:
+        - identity
+        - otp
+    ApiResponseVerifyOtpResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataVerifyOtpResponse"
+        timestamp:
+          type: string
+          format: date-time
+    RestDataVerifyOtpResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/VerifyOtpResponse"
+        details:
+          type: object
+    VerifyOtpResponse:
+      type: object
+      properties:
+        email:
+          type: string
+    ResetPasswordRequest:
+      type: object
+      properties:
+        identifier:
+          type: string
+        newPassword:
+          type: string
+          pattern: "^(?=.*[0-9])(?=.*[!@#$%^&*(){}_+=~`|:;'<>,./?])(?=.*[a-z])(?=.*[A-Z]).{6,120}$"
+        confirmPassword:
+          type: string
+      required:
+        - confirmPassword
+        - identifier
+        - newPassword
+    RegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          maxLength: 120
+          minLength: 0
+        password:
+          type: string
+          pattern: "^(?=.*[0-9])(?=.*[!@#$%^&*(){}_+=~`|:;'<>,./?])(?=.*[a-z])(?=.*[A-Z]).{6,120}$"
+        confirmPassword:
+          type: string
+      required:
+        - confirmPassword
+        - email
+        - password
+    ApiResponseRegisterResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataRegisterResponse"
+        timestamp:
+          type: string
+          format: date-time
+    RegisterResponse:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Địa chỉ email đã đăng ký tài khoản
+    RestDataRegisterResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/RegisterResponse"
+        details:
+          type: object
+    RefreshTokenRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+      required:
+        - refreshToken
+    ApiResponseRefreshTokenResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataRefreshTokenResponse"
+        timestamp:
+          type: string
+          format: date-time
+    RefreshTokenResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+    RestDataRefreshTokenResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/RefreshTokenResponse"
+        details:
+          type: object
+    LogoutRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+      required:
+        - refreshToken
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+    ApiResponseLoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataLoginResponse"
+        timestamp:
+          type: string
+          format: date-time
+    LoginResponse:
+      type: object
+      properties:
+        email:
+          type: string
+        refreshToken:
+          type: string
+        accessToken:
+          type: string
+    RestDataLoginResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/LoginResponse"
+        details:
+          type: object
+    ForgotPasswordRequest:
+      type: object
+      properties:
+        emailOrPhoneNumber:
+          type: string
+      required:
+        - emailOrPhoneNumber
+    ApiResponsePageResponseListWalletDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataPageResponseListWalletDetailResponse"
+        timestamp:
+          type: string
+          format: date-time
+    PageResponseListWalletDetailResponse:
+      type: object
+      properties:
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalPage:
+          type: integer
+          format: int32
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WalletDetailResponse"
+    RestDataPageResponseListWalletDetailResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/PageResponseListWalletDetailResponse"
+        details:
+          type: object
+    WalletDetailResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        balance:
+          type: number
+        currency:
+          type: string
+    ApiResponseWalletDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataWalletDetailResponse"
+        timestamp:
+          type: string
+          format: date-time
+    RestDataWalletDetailResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/WalletDetailResponse"
+        details:
+          type: object
+    ApiResponsePageResponseListTransactionDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataPageResponseListTransactionDetailResponse"
+        timestamp:
+          type: string
+          format: date-time
+    PageResponseListTransactionDetailResponse:
+      type: object
+      properties:
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalPage:
+          type: integer
+          format: int32
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransactionDetailResponse"
+    RestDataPageResponseListTransactionDetailResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/PageResponseListTransactionDetailResponse"
+        details:
+          type: object
+    TransactionDetailResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        amount:
+          type: number
+        type:
+          type: string
+          enum:
+            - EXPENSE
+            - INCOME
+        purpose:
+          type: string
+        description:
+          type: string
+        transactionDate:
+          type: string
+          format: date
+        walletId:
+          type: string
+          format: uuid
+        walletName:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        categoryName:
+          type: string
+    ApiResponseTransactionDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataTransactionDetailResponse"
+        timestamp:
+          type: string
+          format: date-time
+    RestDataTransactionDetailResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/TransactionDetailResponse"
+        details:
+          type: object
+    ApiResponseReconciliationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataReconciliationResponse"
+        timestamp:
+          type: string
+          format: date-time
+    ReconciliationResponse:
+      type: object
+      properties:
+        walletId:
+          type: string
+          format: uuid
+        walletName:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        openingBalance:
+          type: number
+        totalIncome:
+          type: number
+        totalExpense:
+          type: number
+        expectedBalance:
+          type: number
+        actualBalance:
+          type: number
+        difference:
+          type: number
+        transactionCount:
+          type: integer
+          format: int64
+    RestDataReconciliationResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/ReconciliationResponse"
+        details:
+          type: object
+    ApiResponsePageResponseListGoalResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataPageResponseListGoalResponse"
+        timestamp:
+          type: string
+          format: date-time
+    GoalResponse:
+      type: object
+      properties:
+        goalId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        targetAmount:
+          type: number
+        currentAmount:
+          type: number
+        remainingAmount:
+          type: number
+        status:
+          type: string
+          enum:
+            - IN_PROGRESS
+            - COMPLETED
+            - CANCELLED
+        targetDate:
+          type: string
+          format: date
+    PageResponseListGoalResponse:
+      type: object
+      properties:
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalPage:
+          type: integer
+          format: int32
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GoalResponse"
+    RestDataPageResponseListGoalResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/PageResponseListGoalResponse"
+        details:
+          type: object
+    ApiResponseGoalResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataGoalResponse"
+        timestamp:
+          type: string
+          format: date-time
+    RestDataGoalResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/GoalResponse"
+        details:
+          type: object
+    ApiResponsePageResponseListCategoryDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataPageResponseListCategoryDetailResponse"
+        timestamp:
+          type: string
+          format: date-time
+    CategoryDetailResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        parentId:
+          type: string
+          format: uuid
+        parentName:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    PageResponseListCategoryDetailResponse:
+      type: object
+      properties:
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalPage:
+          type: integer
+          format: int32
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategoryDetailResponse"
+    RestDataPageResponseListCategoryDetailResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/PageResponseListCategoryDetailResponse"
+        details:
+          type: object
+    ApiResponseCategoryDetailResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataCategoryDetailResponse"
+        timestamp:
+          type: string
+          format: date-time
+    RestDataCategoryDetailResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/CategoryDetailResponse"
+        details:
+          type: object
+    ApiResponsePageResponseListBudgetResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataPageResponseListBudgetResponse"
+        timestamp:
+          type: string
+          format: date-time
+    BudgetResponse:
+      type: object
+      properties:
+        budgetId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        amount:
+          type: number
+        spent:
+          type: number
+        remaining:
+          type: number
+    PageResponseListBudgetResponse:
+      type: object
+      properties:
+        pageNo:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalPage:
+          type: integer
+          format: int32
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/BudgetResponse"
+    RestDataPageResponseListBudgetResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/PageResponseListBudgetResponse"
+        details:
+          type: object
+    ApiResponseBudgetResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/RestDataBudgetResponse"
+        timestamp:
+          type: string
+          format: date-time
+    RestDataBudgetResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/BudgetResponse"
+        details:
+          type: object
+  securitySchemes:
+    bearerAuth:
+      type: httpsx
+      scheme: bearer
+      bearerFormat: JWT
